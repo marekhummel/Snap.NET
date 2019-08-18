@@ -22,5 +22,9 @@
         <TextBox x:Name="windowTitleTextBox" HorizontalAlignment="Left" Height="30" Margin="40,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <!--<Grid Margin="10,70,10,0" Height="220" VerticalAlignment="Top" Grid.RowSpan="6" Grid.ColumnSpan="6"/>-->
         <TextBox x:Name="pressedKeysTextBox" HorizontalAlignment="Left" Height="30" Margin="40,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Button x:Name="snapTest1Button" Content="1" HorizontalAlignment="Left" Height="35" Margin="40,145,0,0" VerticalAlignment="Top" Width="90" Click="SnapTest1Button_Click"/>
+        <Button x:Name="snapTest2Button" Content="2" HorizontalAlignment="Left" Height="35" Margin="270,145,0,0" VerticalAlignment="Top" Width="90" Click="SnapTest2Button_Click"/>
+        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="85" Margin="40,204,0,0" VerticalAlignment="Top" Width="320" RenderTransformOrigin="0.5,0.5">
+        </ListBox>
     </Grid>
 </Window>

@@ -1,13 +1,12 @@
 ﻿using SnapNET.Model.Keyboard;
 using SnapNET.Model.Monitor;
+using SnapNET.Model.PInvoke;
 using SnapNET.Model.Window;
 using SnapNET.View;
 using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Navigation;
-using SnapNET.Model.PInvoke;
 
 namespace SnapNET
 {
@@ -18,7 +17,7 @@ namespace SnapNET
     {
         private List<ResizingWindow> _resWindows;
 
-        
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -30,17 +29,20 @@ namespace SnapNET
 
             // ** Preset applications
 
-
+            
 
 
             // ** Create windows
             _resWindows = new List<ResizingWindow>();
             foreach (var mon in Monitor.GetAllMonitors()) {
-                var rw = new ResizingWindow();
+                var rw = new ResizingWindow { Monitor = mon };
                 rw.Left = mon.WorkingArea.Left + 0.5 * mon.WorkingArea.Width - 0.5 * rw.Width;
                 rw.Top = mon.WorkingArea.Top + 0.5 * mon.WorkingArea.Height - 0.5 * rw.Height;
                 _resWindows.Add(rw);
                 rw.Show();
+
+                rw.listBox.Items.Add(mon.Name);
+                rw.listBox.Items.Add(mon.IsPrimary);
             }
 
 
