@@ -1,0 +1,27 @@
+﻿<Window x:Class="SnapNET.View.ResizingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SnapNET.View"
+        mc:Ignorable="d"
+        Height="300" Width="400" 
+        WindowStyle="None" 
+        ResizeMode="NoResize" 
+        AllowsTransparency="True"
+        ShowInTaskbar="False" 
+        Topmost="True" 
+        WindowStartupLocation="CenterScreen"
+        DataContext="{StaticResource ResizingWindowViewModel}"
+        Focusable="false">
+    <Window.Background>
+        <SolidColorBrush Opacity="0.7" Color="Black"/>
+    </Window.Background>
+    <Grid>
+        <Button x:Name="exitButton" Content="x" HorizontalAlignment="Left" Height="25" Margin="365,10,0,0" VerticalAlignment="Top" Width="25" Click="ExitButton_Click"/>
+        <Button x:Name="settingButton" Content="s" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="25" RenderTransformOrigin="-14.2,1.2"/>
+        <TextBox x:Name="windowTitleTextBox" HorizontalAlignment="Left" Height="30" Margin="40,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <!--<Grid Margin="10,70,10,0" Height="220" VerticalAlignment="Top" Grid.RowSpan="6" Grid.ColumnSpan="6"/>-->
+        <TextBox x:Name="pressedKeysTextBox" HorizontalAlignment="Left" Height="30" Margin="40,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+    </Grid>
+</Window>
