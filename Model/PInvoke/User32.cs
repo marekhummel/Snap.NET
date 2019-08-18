@@ -12,34 +12,6 @@ namespace SnapNET.Model.PInvoke
         // *****************************
 
         /// <summary>
-        /// Retrieves a handle to the Shell's desktop window.
-        /// </summary>
-        /// <returns>
-        /// The return value is the handle of the Shell's desktop window. If no Shell process is present, the return value is NULL.
-        /// </returns>
-        [DllImport("user32.dll")]
-        internal static extern IntPtr GetShellWindow();
-
-        /// <summary>
-        /// Retrieves the handle to the ancestor of the specified window.
-        /// </summary>
-        /// <param name="hwnd">A handle to the window whose ancestor is to be retrieved.
-        /// If this parameter is the desktop window, the function returns NULL. </param>
-        /// <param name="flags">The ancestor to be retrieved.</param>
-        /// <returns>The return value is the handle to the ancestor window.</returns>
-        [DllImport("user32.dll", ExactSpelling = true)]
-        internal static extern IntPtr GetAncestor(IntPtr hwnd, int flags);
-
-        /// <summary>
-        /// Check if windows visible
-        /// </summary>
-        /// <param name="hWnd"></param>
-        /// <returns></returns>
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool IsWindowVisible(IntPtr hWnd);
-
-        /// <summary>
         /// Return windows text
         /// </summary>
         /// <param name="hWnd"></param>
@@ -58,33 +30,12 @@ namespace SnapNET.Model.PInvoke
         internal static extern IntPtr GetForegroundWindow();
 
         /// <summary>
-        /// Gets class name of window
-        /// </summary>
-        /// <param name="hWnd"></param>
-        /// <param name="lpClassName"></param>
-        /// <param name="nMaxCount"></param>
-        /// <returns></returns>
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        internal static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
-
-        /// <summary>
-        /// Returns
+        /// Sets the foreground window
         /// </summary>
         /// <param name="hWnd"></param>
         /// <returns></returns>
         [DllImport("user32.dll")]
-        internal static extern IntPtr GetLastActivePopup(IntPtr hWnd);
-
-        /// <summary>
-        /// Enumarator on all desktop windows
-        /// </summary>
-        /// <param name="hDesktop"></param>
-        /// <param name="lpEnumCallbackFunction"></param>
-        /// <param name="lParam"></param>
-        /// <returns></returns>
-        [DllImport("user32.dll", EntryPoint = "EnumDesktopWindows",
-        ExactSpelling = false, CharSet = CharSet.Auto, SetLastError = true)]
-        internal static extern bool EnumDesktopWindows(IntPtr hDesktop, EnumDelegate lpEnumCallbackFunction, IntPtr lParam);
+        internal static extern bool SetForegroundWindow(IntPtr hWnd);
 
         /// <summary>
         /// Returns info about the referenced monitor

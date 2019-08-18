@@ -4,17 +4,27 @@ using System.Text;
 
 namespace SnapNET.Model.Window
 {
+    /// <summary>
+    /// Functionality to react to changed in the foreground window
+    /// </summary>
     internal static class ForegroundWindowListener
     {
+        // ***** Private members *****
 
         private static bool _isRunning = false;
         private static IntPtr _hook;
         private static User32.WinEventDelegate _eventDelegate;
 
+
+        // ***** Public members *****
+
         /// <summary>
         /// Triggers when the foreground window changed, according to the GetForegroundWindow function
         /// </summary>
         internal static event EventHandler<ForegroundWindowChangedEventArgs> OnForegroundWindowChanged;
+
+
+        // ***** Public methods *****
 
         /// <summary>
         /// Starts listening to foreground window changes
@@ -46,6 +56,7 @@ namespace SnapNET.Model.Window
         }
 
 
+        // ***** Private methods *****
 
         /// <summary>
         /// Gets the title of the current foreground window

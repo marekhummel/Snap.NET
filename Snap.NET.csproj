@@ -68,24 +68,14 @@
     <Compile Include="View\ResizingWindow.xaml.cs">
       <DependentUpon>ResizingWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Model\Monitor\Monitor.cs" />
     <Compile Include="Model\PInvoke\User32.cs" />
-    <Compile Include="Model\Window\Window.cs" />
     <Compile Include="Model\Settings\GlobalSettings.cs" />
     <Compile Include="Model\Settings\GridSettings.cs" />
-    <Compile Include="Model\Utilities.cs" />
-    <Compile Include="View\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Page Include="View\ResizingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

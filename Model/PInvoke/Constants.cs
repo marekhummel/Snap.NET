@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SnapNET.Model.PInvoke
 {
+    /// <summary>
+    /// Some constants needed for the pinvoke calls
+    /// </summary>
     internal static class Constants
-    {  
+    {
         internal static int GA_ROOTOWNER = 3;
 
         internal static int WH_KEYBOARD_LL = 13;

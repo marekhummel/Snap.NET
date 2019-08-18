@@ -10,15 +10,30 @@ namespace SnapNET.Model.Monitor
     /// </summary>
     public class Monitor
     {
-        // ***** Properties
+        // ***** Properties *****
 
+        /// <summary>
+        /// Name of the monitor
+        /// </summary>
         public string Name { get; private set; }
+
+        /// <summary>
+        /// The bounds of the monitor (comparable to its resolution)
+        /// </summary>
         public System.Windows.Rect Bounds { get; private set; }
+
+        /// <summary>
+        /// The working area of the monitor. Doesn't count the taskbar and is relative to other monitors!
+        /// </summary>
         public System.Windows.Rect WorkingArea { get; private set; }
+
+        /// <summary>
+        /// Flag if this is the primary monitor
+        /// </summary>
         public bool IsPrimary { get; private set; }
 
 
-        // ***** Constructor
+        // ***** Constructor *****
 
         /// <summary>
         /// Constructor
@@ -41,7 +56,7 @@ namespace SnapNET.Model.Monitor
         }
 
 
-        // ***** Static methods
+        // ***** Static methods *****
 
         /// <summary>
         /// Returns a list of connected monitors 

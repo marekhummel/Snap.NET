@@ -12,9 +12,14 @@ namespace SnapNET.Model.PInvoke
         internal Rect rcMonitor = new Rect();
         internal Rect rcWork = new Rect();
         internal int dwFlags = 0;
+
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
         internal char[] szDevice = new char[32];
 
+
+        /// <summary>
+        /// If this bit is set, its the primary monitor
+        /// </summary>
         internal static int MonitorPrimaryFlag = 0x00000001;
     }
 }
