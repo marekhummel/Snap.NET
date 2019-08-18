@@ -8,10 +8,9 @@
         Height="300" Width="400" 
         WindowStyle="None" 
         ResizeMode="NoResize" 
-        AllowsTransparency="True"
+        AllowsTransparency="True"   
         ShowInTaskbar="False" 
         Topmost="True" 
-        WindowStartupLocation="CenterScreen"
         DataContext="{StaticResource ResizingWindowViewModel}"
         Focusable="false">
     <Window.Background>

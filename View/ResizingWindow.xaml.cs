@@ -14,6 +14,7 @@ namespace SnapNET.View
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
+            // ToDo: Doesn't close all windows
             this.Visibility = Visibility.Hidden;
         }
     }
