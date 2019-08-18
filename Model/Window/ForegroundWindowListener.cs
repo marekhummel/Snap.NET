@@ -35,11 +35,11 @@ namespace SnapNET.Model.Window
                 return;
 
             _eventDelegate = new User32.WinEventDelegate((hWinEventHook, eventType, hwnd, idObject, idChild, dwEventThread, dwmsEventTime) => {
-                OnForegroundWindowChanged?.Invoke(null, new ForegroundWindowChangedEventArgs(GetCurrentForegroundWindow()));
+                OnForegroundWindowChanged?.Invoke(null, new ForegroundWindowChangedEventArgs(WindowHelper.GetCurrentForegroundWindow().Title));
             });
 
             _hook = User32.SetWinEventHook(Constants.EVENT_SYSTEM_FOREGROUND, Constants.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _eventDelegate, 0, 0, Constants.WINEVENT_OUTOFCONTEXT);
-            OnForegroundWindowChanged?.Invoke(null, new ForegroundWindowChangedEventArgs(GetCurrentForegroundWindow()));
+            OnForegroundWindowChanged?.Invoke(null, new ForegroundWindowChangedEventArgs(WindowHelper.GetCurrentForegroundWindow().Title));
             _isRunning = true;
         }
 
@@ -53,31 +53,6 @@ namespace SnapNET.Model.Window
 
             User32.UnhookWindowsHookEx(_hook);
             _isRunning = false;
-        }
-
-
-        // ***** Private methods *****
-
-        /// <summary>
-        /// Gets the title of the current foreground window
-        /// </summary>
-        /// <returns></returns>
-        private static string GetCurrentForegroundWindow()
-        {
-            var hWnd = User32.GetForegroundWindow();
-            return GetWindowTitle(hWnd);
-        }
-
-        /// <summary>
-        /// Reads title of window given by the handle
-        /// </summary>
-        /// <param name="hWnd"></param>
-        /// <returns></returns>
-        private static string GetWindowTitle(IntPtr hWnd)
-        {
-            var sbTitle = new StringBuilder(255);
-            User32.GetWindowText(hWnd, sbTitle, sbTitle.Capacity + 1);
-            return sbTitle.ToString();
         }
     }
 }
