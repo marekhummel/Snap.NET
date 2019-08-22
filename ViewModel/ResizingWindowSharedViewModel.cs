@@ -1,14 +1,10 @@
-﻿using SnapNET.Model;
-using SnapNET.Model.Monitor;
-using SnapNET.Model.Window;
-using SnapNET.View;
+﻿using SnapNET.Model.Monitor;
 using System;
-using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace SnapNET.ViewModel
 {
-    internal class ResizingWindowParentViewModel : BaseViewModel
+    internal class ResizingWindowSharedViewModel : BaseViewModel
     {
 
         public Monitor Monitor { get; set; }
@@ -37,7 +33,7 @@ namespace SnapNET.ViewModel
             }
         }
 
-      
+
         public ICommand ExitCommand
             => _exitCommand ?? (_exitCommand = new CommandHandler(() => { IsVisible = false; }, () => true));
     }

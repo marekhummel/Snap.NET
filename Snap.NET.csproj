@@ -65,8 +65,8 @@
     <Compile Include="Model\Window\WindowHelper.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\CommandHandler.cs" />
-    <Compile Include="ViewModel\ResizingWindowChildViewModel.cs" />
-    <Compile Include="ViewModel\ResizingWindowParentViewModel.cs" />
+    <Compile Include="ViewModel\ResizingWindowViewModel.cs" />
+    <Compile Include="ViewModel\ResizingWindowSharedViewModel.cs" />
     <Compile Include="View\ResizingWindow.xaml.cs">
       <DependentUpon>ResizingWindow.xaml</DependentUpon>
     </Compile>

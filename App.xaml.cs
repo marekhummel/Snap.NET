@@ -1,5 +1,4 @@
-﻿using SnapNET.Model;
-using SnapNET.Model.Keyboard;
+﻿using SnapNET.Model.Keyboard;
 using SnapNET.Model.Monitor;
 using SnapNET.Model.PInvoke;
 using SnapNET.Model.Window;
@@ -20,9 +19,9 @@ namespace SnapNET
     public partial class App : Application
     {
         private List<ResizingWindow> _resWindows;
-        private List<ResizingWindowChildViewModel> _childVms;
-        private ResizingWindowParentViewModel _parentVm;
-        
+        private List<ResizingWindowViewModel> _childVms;
+        private ResizingWindowSharedViewModel _parentVm;
+
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -35,22 +34,27 @@ namespace SnapNET
 
             // ** Preset applications
 
-            
+
 
 
             // ** Create windows
             _resWindows = new List<ResizingWindow>();
-            _childVms = new List<ResizingWindowChildViewModel>();
-            _parentVm = new ResizingWindowParentViewModel();
-            foreach (var mon in Monitor.GetAllMonitors()) {
-                var vm = new ResizingWindowChildViewModel(_parentVm) { Monitor = mon };
+            _childVms = new List<ResizingWindowViewModel>();
+            _parentVm = new ResizingWindowSharedViewModel();
 
+            // Create view instance for each monitor
+            foreach (var mon in Monitor.GetAllMonitors()) {
+                // Viewmodel
+                var vm = new ResizingWindowViewModel(_parentVm, mon);
+
+                // Window
                 var rw = new ResizingWindow();
-                //rw.Left = mon.WorkingArea.Left + 0.5 * mon.WorkingArea.Width - 0.5 * rw.Width;
-                //rw.Top = mon.WorkingArea.Top + 0.5 * mon.WorkingArea.Height - 0.5 * rw.Height;
+                rw.Left = mon.WorkingArea.Left + 0.5 * mon.WorkingArea.Width - 0.5 * rw.Width;
+                rw.Top = mon.WorkingArea.Top + 0.5 * mon.WorkingArea.Height - 0.5 * rw.Height;
                 rw.DataContext = vm;
 
-                var visBind = new Binding("Parent.IsVisible") { Source = vm, Converter = new BooleanToVisibilityConverter(), Mode = BindingMode.TwoWay};
+                // Bindings
+                var visBind = new Binding("Shared.IsVisible") { Source = vm, Converter = new BooleanToVisibilityConverter(), Mode = BindingMode.TwoWay };
                 rw.SetBinding(Window.VisibilityProperty, visBind);
 
 
@@ -71,12 +75,16 @@ namespace SnapNET
                 }
 
                 // Update visibility
-                if (KeyboardListener.PressedKeys.Count == 1 && KeyboardListener.PressedKeys.Contains(Key.Space)) {
+                if (KeyboardListener.PressedKeys.SetEquals(new Key[] { Key.LeftCtrl, Key.Space })) {
                     _parentVm.IsVisible = !_parentVm.IsVisible;
+                }
+                else if (KeyboardListener.PressedKeys.SetEquals(new Key[] { Key.LeftCtrl, Key.LeftShift, Key.Space })) {
+                    Application.Current.Shutdown();
                 }
             });
             ForegroundWindowListener.OnForegroundWindowChanged += ((sender, args) => {
                 if (!WindowHelper.IsHandleFromThisApplication(args.ForegroundWindowHandle)) {
+                    _parentVm.ForegroundWindowHandle = args.ForegroundWindowHandle;
                     _parentVm.ForegroundWindowTitle = args.ForegroundWindowTitle;
                 }
             });

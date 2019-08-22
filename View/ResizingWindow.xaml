@@ -5,25 +5,77 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SnapNET.View"
         mc:Ignorable="d"
-        Height="300" Width="400" 
-        WindowStyle="None" 
-        ResizeMode="NoResize" 
-        AllowsTransparency="True"   
-        ShowInTaskbar="False" 
+        Height="300"
+        Width="400"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        ShowInTaskbar="False"
         Topmost="True"
         Focusable="false">
     <Window.Background>
-        <SolidColorBrush Opacity="0.7" Color="Black"/>
+        <SolidColorBrush Opacity="0.7"
+                         Color="Black" />
     </Window.Background>
     <Grid>
-        <Button x:Name="exitButton" Content="x" HorizontalAlignment="Left" Height="25" Margin="365,10,0,0" VerticalAlignment="Top" Width="25" Command="{Binding Path=Parent.ExitCommand}"/>
-        <Button x:Name="settingButton" Content="s" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="25" RenderTransformOrigin="-14.2,1.2"/>
-        <TextBox x:Name="windowTitleTextBox" HorizontalAlignment="Left" Height="30" Margin="40,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="{Binding Path=Parent.ForegroundWindowTitle}"/>
+        <Button x:Name="exitButton"
+                Content="x"
+                HorizontalAlignment="Left"
+                Height="25"
+                Margin="365,10,0,0"
+                VerticalAlignment="Top"
+                Width="25"
+                Command="{Binding Path=Shared.ExitCommand}" />
+        <Button x:Name="settingButton"
+                Content="s"
+                HorizontalAlignment="Left"
+                Height="25"
+                Margin="10,10,0,0"
+                VerticalAlignment="Top"
+                Width="25"
+                RenderTransformOrigin="-14.2,1.2" />
+        <TextBox x:Name="windowTitleTextBox"
+                 HorizontalAlignment="Left"
+                 Height="30"
+                 Margin="40,35,0,0"
+                 TextWrapping="Wrap"
+                 VerticalAlignment="Top"
+                 Width="320"
+                 HorizontalContentAlignment="Center"
+                 VerticalContentAlignment="Center"
+                 Text="{Binding Path=Shared.ForegroundWindowTitle}" />
         <!--<Grid Margin="10,70,10,0" Height="220" VerticalAlignment="Top" Grid.RowSpan="6" Grid.ColumnSpan="6"/>-->
-        <TextBox x:Name="pressedKeysTextBox" HorizontalAlignment="Left" Height="30" Margin="40,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Button x:Name="snapTest1Button" Content="1" HorizontalAlignment="Left" Height="35" Margin="40,145,0,0" VerticalAlignment="Top" Width="90" Command="{Binding ResizeCommand}"/>
-        <Button x:Name="snapTest2Button" Content="2" HorizontalAlignment="Left" Height="35" Margin="270,145,0,0" VerticalAlignment="Top" Width="90"/>
-        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="85" Margin="40,204,0,0" VerticalAlignment="Top" Width="320" RenderTransformOrigin="0.5,0.5">
-        </ListBox>  
+        <TextBox x:Name="pressedKeysTextBox"
+                 HorizontalAlignment="Left"
+                 Height="30"
+                 Margin="40,80,0,0"
+                 TextWrapping="Wrap"
+                 VerticalAlignment="Top"
+                 Width="320"
+                 HorizontalContentAlignment="Center"
+                 VerticalContentAlignment="Center" />
+        <Button x:Name="snapTest1Button"
+                Content="1"
+                HorizontalAlignment="Left"
+                Height="35"
+                Margin="40,145,0,0"
+                VerticalAlignment="Top"
+                Width="90"
+                Command="{Binding ResizeCommand}" />
+        <Button x:Name="snapTest2Button"
+                Content="2"
+                HorizontalAlignment="Left"
+                Height="35"
+                Margin="270,145,0,0"
+                VerticalAlignment="Top"
+                Width="90" />
+        <ListBox x:Name="listBox"
+                 HorizontalAlignment="Left"
+                 Height="85"
+                 Margin="40,204,0,0"
+                 VerticalAlignment="Top"
+                 Width="320"
+                 RenderTransformOrigin="0.5,0.5">
+        </ListBox>
     </Grid>
 </Window>  
