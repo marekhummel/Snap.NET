@@ -12,16 +12,6 @@ namespace SnapNET.Model.Window
     /// </summary>
     internal static class WindowHelper
     {
-        // ***** Public members *****
-
-        /// <summary>
-        /// The handle of the window in the foreground, which does not update to this application
-        /// </summary>
-        public static IntPtr ForegroundWindowHandle { get; private set; } 
-
-
-
-
         // ***** Public methods *****
 
         /// <summary>
@@ -49,18 +39,14 @@ namespace SnapNET.Model.Window
 
         internal static void SetWindowSize(IntPtr hWnd, double left, double top, double width, double height)
         {
-            throw new NotImplementedException();
+            User32.MoveWindow(hWnd, (int)left, (int)top, (int)width, (int)height, true);
         }
 
 
-
-        // ***** Private methods *****
-        static WindowHelper()
+        internal static bool IsHandleFromThisApplication(IntPtr hWnd)
         {
-            // Add own listener
-            ForegroundWindowListener.OnForegroundWindowChanged += ((sender, args) => {
-
-            });
+            User32.GetWindowThreadProcessId(hWnd, out uint pid);
+            return pid == System.Diagnostics.Process.GetCurrentProcess().Id;
         }
     }
 }
