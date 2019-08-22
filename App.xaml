@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="clr-namespace:SnapNET.ViewModel">
     <Application.Resources>
-        <vm:ResizingWindowViewModel x:Key="ResizingWindowViewModel" />
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
     </Application.Resources>
 </Application>
