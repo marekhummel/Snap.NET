@@ -8,6 +8,11 @@ namespace SnapNET.Model.Window
     internal class ForegroundWindowChangedEventArgs : EventArgs
     {
         /// <summary>
+        /// Handle of the foreground window
+        /// </summary>
+        public IntPtr ForegroundWindowHandle { get; private set; }
+
+        /// <summary>
         /// Title of the foreground window
         /// </summary>
         public string ForegroundWindowTitle { get; private set; }
@@ -16,9 +21,10 @@ namespace SnapNET.Model.Window
         /// Constructor
         /// </summary>
         /// <param name="title"></param>
-        public ForegroundWindowChangedEventArgs(string title)
+        public ForegroundWindowChangedEventArgs(IntPtr hwnd)
         {
-            ForegroundWindowTitle = title;
+            ForegroundWindowHandle = hwnd;
+            ForegroundWindowTitle = WindowHelper.GetWindowTitle(hwnd);
         }
     }
 }
