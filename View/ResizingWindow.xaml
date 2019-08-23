@@ -43,7 +43,7 @@
                  Width="320"
                  HorizontalContentAlignment="Center"
                  VerticalContentAlignment="Center"
-                 Text="{Binding Path=Shared.ForegroundWindowTitle}" />
+                 Text="{Binding Shared.ForegroundWindowTitle}" />
         <!--<Grid Margin="10,70,10,0" Height="220" VerticalAlignment="Top" Grid.RowSpan="6" Grid.ColumnSpan="6"/>-->
         <TextBox x:Name="pressedKeysTextBox"
                  HorizontalAlignment="Left"
@@ -55,7 +55,7 @@
                  HorizontalContentAlignment="Center"
                  VerticalContentAlignment="Center" />
         <Button x:Name="snapTest1Button"
-                Content="1"
+                Content="{Binding Test}"
                 HorizontalAlignment="Left"
                 Height="35"
                 Margin="40,145,0,0"

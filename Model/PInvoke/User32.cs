@@ -44,7 +44,7 @@ namespace SnapNET.Model.PInvoke
         /// <returns></returns>
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         [ResourceExposure(ResourceScope.None)]
-        internal static extern bool GetMonitorInfo(HandleRef hmonitor, [In, Out]MonitorInfoEx info);
+        internal static extern bool GetMonitorInfo(IntPtr hmonitor, [In, Out]MonitorInfoEx info);
 
         /// <summary>
         /// Enumerator on all connected monitors
@@ -56,7 +56,7 @@ namespace SnapNET.Model.PInvoke
         /// <returns></returns>
         [DllImport("user32.dll", ExactSpelling = true)]
         [ResourceExposure(ResourceScope.None)]
-        internal static extern bool EnumDisplayMonitors(HandleRef hdc, IntPtr rcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);
+        internal static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr rcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);
 
         /// <summary>
         /// Set up an global low level keyboard hook
@@ -146,6 +146,17 @@ namespace SnapNET.Model.PInvoke
         /// <returns></returns>
         [DllImport("user32.dll", SetLastError= true)]
         internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+
+
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern bool GetWindowRect(IntPtr hwnd, out Rect lpRect);
+
+        [DllImport("dwmapi.dll")]
+        internal static extern int DwmGetWindowAttribute(IntPtr hWnd, int dwAttribute, out Rect lpRect, int cbAttribute);
 
 
 

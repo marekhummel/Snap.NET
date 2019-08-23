@@ -1,6 +1,6 @@
-﻿using SnapNET.Model.Monitor;
+﻿using System.Windows.Input;
+using SnapNET.Model.Monitor;
 using SnapNET.Model.Window;
-using System.Windows.Input;
 
 namespace SnapNET.ViewModel
 {
@@ -17,10 +17,24 @@ namespace SnapNET.ViewModel
             Monitor = mon;
         }
 
+
+        private string _test;
+        public string Test
+        {
+            get => _test;
+            set {
+                _test = value;
+                OnPropertyChanged(nameof(Test));
+            }
+        }
+
         public ICommand ResizeCommand
             => _resizeCommand ?? (_resizeCommand = new CommandHandler(() => {
                 var wa = Monitor.WorkingArea;
                 WindowHelper.SetWindowSize(Shared.ForegroundWindowHandle, wa.Left, wa.Top, wa.Width / 2, wa.Height);
+                Model.PInvoke.User32.GetWindowRect(Shared.ForegroundWindowHandle, out var window);
+
+                Test = $"{window.left}|{window.top}|{window.right}|{window.bottom}";
             }, () => true));
     }
 }

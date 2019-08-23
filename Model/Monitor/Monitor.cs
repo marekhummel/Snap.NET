@@ -42,7 +42,7 @@ namespace SnapNET.Model.Monitor
         private Monitor(IntPtr monitor)
         {
             var info = new MonitorInfoEx();
-            User32.GetMonitorInfo(new HandleRef(null, monitor), info);
+            User32.GetMonitorInfo(monitor, info);
             Bounds = new System.Windows.Rect(
                         info.rcMonitor.left, info.rcMonitor.top,
                         info.rcMonitor.right - info.rcMonitor.left,
@@ -69,7 +69,7 @@ namespace SnapNET.Model.Monitor
                 monitors.Add(new Monitor(monPtr));
                 return true;
             });
-            User32.EnumDisplayMonitors(new HandleRef(null, IntPtr.Zero), IntPtr.Zero, proc, IntPtr.Zero);
+            User32.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, proc, IntPtr.Zero);
             return monitors;
         }
     }
