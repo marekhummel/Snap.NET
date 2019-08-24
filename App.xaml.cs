@@ -27,6 +27,8 @@ namespace SnapNET
         {
             base.OnStartup(e);
 
+            // ToDo: Request admin rights
+
             // Get and store previous focussed window handle
             var hwnd = User32.GetForegroundWindow();
 

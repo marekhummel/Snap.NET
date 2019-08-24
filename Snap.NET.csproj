@@ -60,6 +60,7 @@
     <Compile Include="Model\PInvoke\Constants.cs" />
     <Compile Include="Model\PInvoke\MonitorInfoEx.cs" />
     <Compile Include="Model\PInvoke\Rect.cs" />
+    <Compile Include="Model\Settings\SettingsManager.cs" />
     <Compile Include="Model\Window\ForegroundWindowListener.cs" />
     <Compile Include="Model\Window\ForegroundWindowChangedEventArgs.cs" />
     <Compile Include="Model\Window\WindowHelper.cs" />

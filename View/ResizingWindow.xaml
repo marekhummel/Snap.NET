@@ -55,7 +55,7 @@
                  HorizontalContentAlignment="Center"
                  VerticalContentAlignment="Center" />
         <Button x:Name="snapTest1Button"
-                Content="{Binding Test}"
+                Content="1"
                 HorizontalAlignment="Left"
                 Height="35"
                 Margin="40,145,0,0"
