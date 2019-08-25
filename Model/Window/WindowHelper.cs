@@ -42,7 +42,8 @@ namespace SnapNET.Model.Window
         /// <param name="top"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        internal static void SetWindowSize(IntPtr hWnd, double left, double top, double width, double height)
+        /// <param name="focusAfterResizing"></param>
+        internal static void SetWindowSize(IntPtr hWnd, double left, double top, double width, double height, bool focusAfterResizing)
         {
             // Window is maximized, minimize it to calc margin size
             if (IsWindowMaximized(hWnd)) {
@@ -61,6 +62,10 @@ namespace SnapNET.Model.Window
             // Set window pos
             uint flags = Constants.SWP_ASYNCWINDOWPOS | Constants.SWP_NOOWNERZORDER | Constants.SWP_NOZORDER;
             Console.WriteLine(NativeMethods.SetWindowPos(hWnd, IntPtr.Zero, oleft, otop, owidth, oheight, flags));
+
+            // Focus
+            if (focusAfterResizing)
+                NativeMethods.SetForegroundWindow(hWnd);
 
             // ToDo: Set to maximized if rect covers full screen ?
         }

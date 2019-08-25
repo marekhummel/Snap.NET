@@ -25,7 +25,7 @@
                 Margin="365,10,0,0"
                 VerticalAlignment="Top"
                 Width="25"
-                Command="{Binding Path=Shared.ExitCommand}" />
+                Command="{Binding Shared.ExitCommand}" />
         <Button x:Name="settingButton"
                 Content="s"
                 HorizontalAlignment="Left"
@@ -68,7 +68,8 @@
                 Height="35"
                 Margin="270,145,0,0"
                 VerticalAlignment="Top"
-                Width="90" />
+                Width="90" 
+                Command="{Binding Shared.SaveCommand}"/>
         <ListBox x:Name="listBox"
                  HorizontalAlignment="Left"
                  Height="85"

@@ -13,7 +13,7 @@ namespace SnapNET.ViewModel
 
         private bool _isVisible;
         private string _foregroundWindowTitle;
-        private ICommand _exitCommand;
+        private ICommand _exitCommand, _saveCommand;
 
         public bool IsVisible
         {
@@ -36,5 +36,10 @@ namespace SnapNET.ViewModel
 
         public ICommand ExitCommand
             => _exitCommand ?? (_exitCommand = new CommandHandler(() => { IsVisible = false; }, () => true));
+
+        public ICommand SaveCommand
+            => _saveCommand ?? (_saveCommand = new CommandHandler(() => {
+                Model.Settings.SettingsManager.StoreSettings();
+            }, () => true));
     }
 }

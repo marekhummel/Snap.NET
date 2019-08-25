@@ -7,6 +7,7 @@ using System.Windows.Input;
 using SnapNET.Model.Keyboard;
 using SnapNET.Model.Monitor;
 using SnapNET.Model.PInvoke;
+using SnapNET.Model.Settings;
 using SnapNET.Model.Window;
 using SnapNET.View;
 using SnapNET.ViewModel;
@@ -33,9 +34,10 @@ namespace SnapNET
             var hwnd = NativeMethods.GetForegroundWindow();
 
             // ** Load settings
+            SettingsManager.LoadSettings();
 
             // ** Preset applications
-
+            // ToDo
 
 
 
@@ -47,7 +49,7 @@ namespace SnapNET
             // Create view instance for each monitor
             foreach (var mon in Monitor.GetAllMonitors()) {
                 // Viewmodel
-                var vm = new ResizingWindowViewModel(_parentVm, mon);
+                var vm = new ResizingWindowViewModel(_parentVm, mon, SettingsManager.GetGridSettings(mon.Name));
 
                 // Window
                 var rw = new ResizingWindow();
@@ -59,17 +61,13 @@ namespace SnapNET
                 var visBind = new Binding("Shared.IsVisible") { Source = vm, Converter = new BooleanToVisibilityConverter(), Mode = BindingMode.TwoWay };
                 rw.SetBinding(Window.VisibilityProperty, visBind);
 
-
-                // Debug
-                rw.listBox.Items.Add(mon.Name);
-                rw.listBox.Items.Add(mon.IsPrimary);
-
+                // Show
                 _resWindows.Add(rw);
                 rw.Show();
             }
 
 
-            // ** Fire up listeners
+            // Config listeners
             KeyboardListener.OnPressedKeysChanged += ((sender, args) => {
                 // DEBUG
                 foreach (var rw in _resWindows) {
@@ -94,6 +92,7 @@ namespace SnapNET
             // Reset focussed window
             NativeMethods.SetForegroundWindow(hwnd);
 
+            // Start listeners
             KeyboardListener.StartListener();
             ForegroundWindowListener.StartListener();
         }
@@ -106,6 +105,9 @@ namespace SnapNET
         {
             KeyboardListener.StopListener();
             ForegroundWindowListener.StopListener();
+
+            SettingsManager.StoreSettings();
+
             base.OnExit(e);
         }
     }

@@ -19,7 +19,7 @@ namespace SnapNET.Model.Settings
         /// <summary>
         /// The amount of columns
         /// </summary>
-        public int Columns { get; set; }
+        public int Columns { get; set; } 
 
         /// <summary>
         /// Horizontal (x) distance between two grid cells
@@ -52,28 +52,47 @@ namespace SnapNET.Model.Settings
         public int BottomMargin { get; set; }
 
 
+
+
         // ***** Public methods *****
 
         /// <summary>
-        /// Returns location and dimension of an grid cell
+        /// Constructor
         /// </summary>
-        /// <param name="i">The column of the cell</param>
-        /// <param name="j">The row of the cell</param>
-        /// <param name="screenWidth"></param>
-        /// <param name="screenHeight"></param>
-        /// <returns></returns>
-        public Rect GetTileRectAtIndex(int i, int j, int screenWidth, int screenHeight)
+        /// <param name="monId"></param>
+        public GridSettings()
         {
-            if (i < 0 || j < 0 || i >= Rows || j >= Columns)
+            Rows = 6;
+            Columns = 6;
+        }
+
+        /// <summary>
+        /// Dimensions of grid cell rect
+        /// </summary>
+        /// <param name="mon"></param>
+        /// <param name="idxLeft"></param>
+        /// <param name="idxRight"></param>
+        /// <param name="idxTop"></param>
+        /// <param name="idxBottom"></param>
+        /// <returns></returns>
+        public Rect GetTileSpanAtIndices(Monitor.Monitor mon, int idxLeft, int idxRight, int idxTop, int idxBottom)
+        {
+            if (idxLeft < 0 || idxRight >= Columns || idxTop < 0 ||idxBottom >= Rows || idxLeft > idxRight || idxTop > idxBottom)
                 throw new ArgumentOutOfRangeException("Indices out of range");
 
-            int tileWidth = ((screenWidth - LeftMargin - RightMargin) - (Columns - 1) * HorizontalMargin) / Columns;
-            int tileHeight = ((screenHeight - TopMargin - BottomMargin) - (Rows - 1) * VerticalMargin) / Rows;
+            // Absolute dimensions of monitor
+            var wa = mon.WorkingArea;
 
-            int tileLeft = LeftMargin + i * (tileWidth + HorizontalMargin);
-            int tileTop = TopMargin + j * (tileHeight + VerticalMargin);
+            // Dimensions of one tile
+            double tileWidth = ((wa.Width - LeftMargin - RightMargin) - (Columns - 1) * HorizontalMargin) / Columns;
+            double tileHeight = ((wa.Height - TopMargin - BottomMargin) - (Rows - 1) * VerticalMargin) / Rows;
 
-            return new Rect(tileLeft, tileTop, tileWidth, tileHeight);
+            // Args of the rect
+            double left = wa.Left + LeftMargin + idxLeft * (tileWidth + HorizontalMargin);
+            double top = wa.Top + TopMargin + idxTop * (tileHeight + VerticalMargin);
+            double width = tileWidth * (idxRight - idxLeft + 1) + HorizontalMargin * (idxRight - idxLeft);
+            double height = tileHeight * (idxBottom - idxTop + 1) + VerticalMargin * (idxBottom - idxTop);
+            return new Rect(left, top, width, height);
         }
     }
 }

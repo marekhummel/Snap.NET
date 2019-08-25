@@ -7,20 +7,33 @@ namespace SnapNET.Model.Settings
     /// </summary>
     internal class GlobalSettings
     {
+        // ***** Public members *****
 
         /// <summary>
         /// Flag if software should be started with windows
         /// </summary>
-        public bool StartWithWindows { get; set; }
+        public bool StartWithWindows { get; set; } = true;
 
         /// <summary>
         /// Grid settings per monitor
         /// </summary>
-        public List<GridSettings> GridSettings { get; set; }
+        public Dictionary<string, GridSettings> GridSettings { get; set; }
 
 
         // Shortcuts
 
         // Application defaults
+
+
+        // ***** Public methods *****
+
+        /// <summary>
+        /// Constructor 
+        /// </summary>
+        public GlobalSettings()
+        {
+            GridSettings = new Dictionary<string, GridSettings>();
+        }
+
     }
 }
