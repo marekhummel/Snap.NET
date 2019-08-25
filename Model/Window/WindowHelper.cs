@@ -18,7 +18,7 @@ namespace SnapNET.Model.Window
         /// <returns></returns>
         internal static (IntPtr Handle, string Title) GetCurrentForegroundWindow()
         {
-            var hWnd = User32.GetForegroundWindow();
+            var hWnd = NativeMethods.GetForegroundWindow();
             return (hWnd, GetWindowTitle(hWnd));
         }
 
@@ -30,7 +30,7 @@ namespace SnapNET.Model.Window
         internal static string GetWindowTitle(IntPtr hWnd)
         {
             var sbTitle = new StringBuilder(255);
-            User32.GetWindowText(hWnd, sbTitle, sbTitle.Capacity + 1);
+            NativeMethods.GetWindowText(hWnd, sbTitle, sbTitle.Capacity + 1);
             return sbTitle.ToString();
         }
 
@@ -46,7 +46,7 @@ namespace SnapNET.Model.Window
         {
             // Window is maximized, minimize it to calc margin size
             if (IsWindowMaximized(hWnd)) {
-                User32.ShowWindow(hWnd, Constants.SW_SHOWNORMAL);
+                NativeMethods.ShowWindow(hWnd, Constants.SW_SHOWNORMAL);
             }
 
             // Get window margin
@@ -60,7 +60,7 @@ namespace SnapNET.Model.Window
 
             // Set window pos
             uint flags = Constants.SWP_ASYNCWINDOWPOS | Constants.SWP_NOOWNERZORDER | Constants.SWP_NOZORDER;
-            Console.WriteLine(User32.SetWindowPos(hWnd, IntPtr.Zero, oleft, otop, owidth, oheight, flags));
+            Console.WriteLine(NativeMethods.SetWindowPos(hWnd, IntPtr.Zero, oleft, otop, owidth, oheight, flags));
 
             // ToDo: Set to maximized if rect covers full screen ?
         }
@@ -72,7 +72,7 @@ namespace SnapNET.Model.Window
         /// <returns></returns>
         internal static bool IsHandleFromThisApplication(IntPtr hWnd)
         {
-            User32.GetWindowThreadProcessId(hWnd, out uint pid);
+            NativeMethods.GetWindowThreadProcessId(hWnd, out uint pid);
             return pid == System.Diagnostics.Process.GetCurrentProcess().Id;
         }
 
@@ -88,8 +88,8 @@ namespace SnapNET.Model.Window
         /// <returns></returns>
         private static Rect GetSystemWindowMargins(IntPtr hWnd)
         {
-            User32.GetWindowRect(hWnd, out var extendendRect);
-            User32.DwmGetWindowAttribute(hWnd, Constants.DWMWA_EXTENDED_FRAME_BOUNDS, out var visRect, Marshal.SizeOf<Rect>());
+            NativeMethods.GetWindowRect(hWnd, out var extendendRect);
+            NativeMethods.DwmGetWindowAttribute(hWnd, Constants.DWMWA_EXTENDED_FRAME_BOUNDS, out var visRect, Marshal.SizeOf<Rect>());
             return new Rect() {
                 left = visRect.left - extendendRect.left,
                 top = visRect.top - extendendRect.top,
@@ -105,7 +105,7 @@ namespace SnapNET.Model.Window
         /// <returns></returns>
         private static bool IsWindowMaximized(IntPtr hWnd)
         {
-            uint style = User32.GetWindowLong(hWnd, Constants.GWL_STYLE);
+            uint style = NativeMethods.GetWindowLong(hWnd, Constants.GWL_STYLE);
             return (style & Constants.WS_MAXIMIZE) == Constants.WS_MAXIMIZE;
         }
     }

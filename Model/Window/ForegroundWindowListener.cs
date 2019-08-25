@@ -1,6 +1,5 @@
-﻿using SnapNET.Model.PInvoke;
-using System;
-using System.Text;
+﻿using System;
+using SnapNET.Model.PInvoke;
 
 namespace SnapNET.Model.Window
 {
@@ -13,7 +12,7 @@ namespace SnapNET.Model.Window
 
         private static bool _isRunning = false;
         private static IntPtr _hook;
-        private static User32.WinEventDelegate _eventDelegate;
+        private static NativeMethods.WinEventDelegate _eventDelegate;
 
 
         // ***** Public members *****
@@ -34,11 +33,11 @@ namespace SnapNET.Model.Window
             if (_isRunning)
                 return;
 
-            _eventDelegate = new User32.WinEventDelegate((hWinEventHook, eventType, hwnd, idObject, idChild, dwEventThread, dwmsEventTime) => {
+            _eventDelegate = new NativeMethods.WinEventDelegate((hWinEventHook, eventType, hwnd, idObject, idChild, dwEventThread, dwmsEventTime) => {
                 OnForegroundWindowChanged?.Invoke(null, new ForegroundWindowChangedEventArgs(hwnd));
             });
 
-            _hook = User32.SetWinEventHook(Constants.EVENT_SYSTEM_FOREGROUND, Constants.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _eventDelegate, 0, 0, Constants.WINEVENT_OUTOFCONTEXT);
+            _hook = NativeMethods.SetWinEventHook(Constants.EVENT_SYSTEM_FOREGROUND, Constants.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _eventDelegate, 0, 0, Constants.WINEVENT_OUTOFCONTEXT);
             OnForegroundWindowChanged?.Invoke(null, new ForegroundWindowChangedEventArgs(WindowHelper.GetCurrentForegroundWindow().Handle));
             _isRunning = true;
         }
@@ -51,7 +50,7 @@ namespace SnapNET.Model.Window
             if (!_isRunning)
                 return;
 
-            User32.UnhookWindowsHookEx(_hook);
+            NativeMethods.UnhookWindowsHookEx(_hook);
             _isRunning = false;
         }
     }

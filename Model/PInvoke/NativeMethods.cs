@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SnapNET.Model.PInvoke
 {
-    internal static class User32
+    internal static class NativeMethods
     {
         // *****************************
         // *****      EXTERNS      *****
@@ -18,7 +18,7 @@ namespace SnapNET.Model.PInvoke
         /// <param name="lpWindowText"></param>
         /// <param name="nMaxCount"></param>
         /// <returns></returns>
-        [DllImport("user32.dll", EntryPoint = "GetWindowText", ExactSpelling = false, CharSet = CharSet.Auto, SetLastError = true)]
+        [DllImport("user32.dll", EntryPoint = "GetWindowText", ExactSpelling = false, CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern int GetWindowText(IntPtr hWnd, StringBuilder lpWindowText, int nMaxCount);
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace SnapNET.Model.PInvoke
         /// </summary>
         /// <param name="lpModuleName"></param>
         /// <returns></returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern IntPtr GetModuleHandle(string lpModuleName);
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace SnapNET.Model.PInvoke
         /// <param name="hWnd"></param>
         /// <param name="lpdwProcessId"></param>
         /// <returns></returns>
-        [DllImport("user32.dll", SetLastError= true)]
+        [DllImport("user32.dll", SetLastError = true)]
         internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
         /// <summary>

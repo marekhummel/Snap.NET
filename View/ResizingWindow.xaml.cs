@@ -1,7 +1,4 @@
-﻿using SnapNET.Model.Monitor;
-using SnapNET.Model.Window;
-using SnapNET.ViewModel;
-using System.Windows;
+﻿using System.Windows;
 
 namespace SnapNET.View
 {

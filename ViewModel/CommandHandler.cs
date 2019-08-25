@@ -33,10 +33,10 @@ namespace SnapNET.ViewModel
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public bool CanExecute(object parameter) 
+        public bool CanExecute(object parameter)
             => _canExecute.Invoke();
 
-        public void Execute(object parameter) 
+        public void Execute(object parameter)
             => _action();
     }
 }

@@ -1,15 +1,15 @@
-﻿using SnapNET.Model.Keyboard;
-using SnapNET.Model.Monitor;
-using SnapNET.Model.PInvoke;
-using SnapNET.Model.Window;
-using SnapNET.View;
-using SnapNET.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using SnapNET.Model.Keyboard;
+using SnapNET.Model.Monitor;
+using SnapNET.Model.PInvoke;
+using SnapNET.Model.Window;
+using SnapNET.View;
+using SnapNET.ViewModel;
 
 namespace SnapNET
 {
@@ -30,7 +30,7 @@ namespace SnapNET
             // ToDo: Request admin rights
 
             // Get and store previous focussed window handle
-            var hwnd = User32.GetForegroundWindow();
+            var hwnd = NativeMethods.GetForegroundWindow();
 
             // ** Load settings
 
@@ -92,7 +92,7 @@ namespace SnapNET
             });
 
             // Reset focussed window
-            User32.SetForegroundWindow(hwnd);
+            NativeMethods.SetForegroundWindow(hwnd);
 
             KeyboardListener.StartListener();
             ForegroundWindowListener.StartListener();

@@ -1,6 +1,6 @@
-﻿using SnapNET.Model.Monitor;
-using System;
+﻿using System;
 using System.Windows.Input;
+using SnapNET.Model.Monitor;
 
 namespace SnapNET.ViewModel
 {

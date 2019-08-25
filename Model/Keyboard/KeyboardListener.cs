@@ -1,9 +1,9 @@
-﻿using SnapNET.Model.PInvoke;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
+using SnapNET.Model.PInvoke;
 
 namespace SnapNET.Model.Keyboard
 {
@@ -16,7 +16,7 @@ namespace SnapNET.Model.Keyboard
 
         private static bool _isRunning;
         private static readonly List<IntPtr> _hooks = new List<IntPtr>();
-        private static readonly List<User32.LowLevelKeyboardProc> _hookCallbacks = new List<User32.LowLevelKeyboardProc>();
+        private static readonly List<NativeMethods.LowLevelKeyboardProc> _hookCallbacks = new List<NativeMethods.LowLevelKeyboardProc>();
 
 
         // ***** Public members *****
@@ -75,7 +75,7 @@ namespace SnapNET.Model.Keyboard
 
             // Unhook everything
             foreach (var hook in _hooks)
-                User32.UnhookWindowsHookEx(hook);
+                NativeMethods.UnhookWindowsHookEx(hook);
 
             _isRunning = false;
         }
@@ -96,7 +96,7 @@ namespace SnapNET.Model.Keyboard
 
             using (var curProcess = Process.GetCurrentProcess())
             using (var curModule = curProcess.MainModule)
-                return User32.SetWindowsHookEx(Constants.WH_KEYBOARD_LL, newProc, User32.GetModuleHandle(curModule.ModuleName), 0);
+                return NativeMethods.SetWindowsHookEx(Constants.WH_KEYBOARD_LL, newProc, NativeMethods.GetModuleHandle(curModule.ModuleName), 0);
         }
 
         /// <summary>
@@ -105,15 +105,15 @@ namespace SnapNET.Model.Keyboard
         /// <param name="kc">The callback</param>
         /// <param name="expectedWParam">Specify the expected wParam (keydown or keyup)</param>
         /// <returns>LowLevelKeyboardProc for the keyboard hook</returns>
-        private static User32.LowLevelKeyboardProc CreateHookCallBack(KeyboardCallback kc, IntPtr expectedWParam)
+        private static NativeMethods.LowLevelKeyboardProc CreateHookCallBack(KeyboardCallback kc, IntPtr expectedWParam)
         {
-            return new User32.LowLevelKeyboardProc((code, wparam, lparam) => {
+            return new NativeMethods.LowLevelKeyboardProc((code, wparam, lparam) => {
                 if (code >= 0 && wparam == expectedWParam) {
                     int keyCode = Marshal.ReadInt32(lparam);
                     kc.Invoke(keyCode);
                 }
 
-                return User32.CallNextHookEx(IntPtr.Zero, code, wparam, lparam);
+                return NativeMethods.CallNextHookEx(IntPtr.Zero, code, wparam, lparam);
             });
         }
     }

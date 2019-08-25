@@ -1,7 +1,6 @@
-﻿using SnapNET.Model.PInvoke;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using SnapNET.Model.PInvoke;
 
 namespace SnapNET.Model.Monitor
 {
@@ -42,7 +41,7 @@ namespace SnapNET.Model.Monitor
         private Monitor(IntPtr monitor)
         {
             var info = new MonitorInfoEx();
-            User32.GetMonitorInfo(monitor, info);
+            NativeMethods.GetMonitorInfo(monitor, info);
             Bounds = new System.Windows.Rect(
                         info.rcMonitor.left, info.rcMonitor.top,
                         info.rcMonitor.right - info.rcMonitor.left,
@@ -65,11 +64,11 @@ namespace SnapNET.Model.Monitor
         public static IEnumerable<Monitor> GetAllMonitors()
         {
             var monitors = new List<Monitor>();
-            var proc = new User32.MonitorEnumProc((monPtr, hdc, lprc, lparam) => {
+            var proc = new NativeMethods.MonitorEnumProc((monPtr, hdc, lprc, lparam) => {
                 monitors.Add(new Monitor(monPtr));
                 return true;
             });
-            User32.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, proc, IntPtr.Zero);
+            NativeMethods.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, proc, IntPtr.Zero);
             return monitors;
         }
     }

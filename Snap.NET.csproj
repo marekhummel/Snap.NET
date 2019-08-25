@@ -76,7 +76,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Model\Monitor\Monitor.cs" />
-    <Compile Include="Model\PInvoke\User32.cs" />
+    <Compile Include="Model\PInvoke\NativeMethods.cs" />
     <Compile Include="Model\Settings\GlobalSettings.cs" />
     <Compile Include="Model\Settings\GridSettings.cs" />
     <Page Include="View\ResizingWindow.xaml">
