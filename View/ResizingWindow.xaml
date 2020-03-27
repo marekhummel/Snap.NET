@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SnapNET.View"
         mc:Ignorable="d"
-        Height="300"
+        Height="465"
         Width="400"
         WindowStyle="None"
         ResizeMode="NoResize"
@@ -58,7 +58,7 @@
                 Content="1"
                 HorizontalAlignment="Left"
                 Height="35"
-                Margin="40,145,0,0"
+                Margin="40,122,0,0"
                 VerticalAlignment="Top"
                 Width="90"
                 Command="{Binding ResizeCommand}" />
@@ -66,17 +66,22 @@
                 Content="2"
                 HorizontalAlignment="Left"
                 Height="35"
-                Margin="270,145,0,0"
+                Margin="270,122,0,0"
                 VerticalAlignment="Top"
                 Width="90" 
-                Command="{Binding Shared.SaveCommand}"/>
+                Command="{Binding Shared.SaveCommand}" RenderTransformOrigin="0.556,-1"/>
+        <local:GridSelector Background="AliceBlue" 
+                            Margin="0,162,0,95" 
+                            Rows="6" 
+                            Columns="6"
+                            Padding="35,20">
+        </local:GridSelector>
         <ListBox x:Name="listBox"
                  HorizontalAlignment="Left"
-                 Height="85"
-                 Margin="40,204,0,0"
+                 Height="50"
+                 Margin="40,395,0,0"
                  VerticalAlignment="Top"
-                 Width="320"
-                 RenderTransformOrigin="0.5,0.5">
+                 Width="320">
         </ListBox>
     </Grid>
 </Window>  

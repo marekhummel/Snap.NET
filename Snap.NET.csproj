@@ -8,12 +8,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>SnapNET</RootNamespace>
     <AssemblyName>Snap.NET</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -69,6 +70,9 @@
     <Compile Include="ViewModel\CommandHandler.cs" />
     <Compile Include="ViewModel\ResizingWindowViewModel.cs" />
     <Compile Include="ViewModel\ResizingWindowSharedViewModel.cs" />
+    <Compile Include="View\GridSelector.xaml.cs">
+      <DependentUpon>GridSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ResizingWindow.xaml.cs">
       <DependentUpon>ResizingWindow.xaml</DependentUpon>
     </Compile>
@@ -80,6 +84,10 @@
     <Compile Include="Model\PInvoke\NativeMethods.cs" />
     <Compile Include="Model\Settings\GlobalSettings.cs" />
     <Compile Include="Model\Settings\GridSettings.cs" />
+    <Page Include="View\GridSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ResizingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
