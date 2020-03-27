@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+
 using SnapNET.Model.Keyboard;
 using SnapNET.Model.Monitor;
 using SnapNET.Model.PInvoke;
@@ -53,8 +53,8 @@ namespace SnapNET
 
                 // Window
                 var rw = new ResizingWindow();
-                rw.Left = mon.WorkingArea.Left + 0.5 * mon.WorkingArea.Width - 0.5 * rw.Width;
-                rw.Top = mon.WorkingArea.Top + 0.5 * mon.WorkingArea.Height - 0.5 * rw.Height;
+                rw.Left = mon.WorkingArea.Left + (0.5 * mon.WorkingArea.Width) - (0.5 * rw.Width);
+                rw.Top = mon.WorkingArea.Top + (0.5 * mon.WorkingArea.Height) - (0.5 * rw.Height);
                 rw.DataContext = vm;
 
                 // Bindings
@@ -66,28 +66,27 @@ namespace SnapNET
                 rw.Show();
             }
 
-
             // Config listeners
-            KeyboardListener.OnPressedKeysChanged += ((sender, args) => {
+            KeyboardListener.OnPressedKeysChanged += (sender, args) => {
                 // DEBUG
                 foreach (var rw in _resWindows) {
-                    rw.pressedKeysTextBox.Text = String.Join(" + ", KeyboardListener.PressedKeys);
+                    rw.pressedKeysTextBox.Text = string.Join(" + ", KeyboardListener.PressedKeys);
                 }
 
                 // Update visibility
-                if (KeyboardListener.PressedKeys.SetEquals(new Key[] { Key.LeftCtrl, Key.Space })) {
+                if (KeyboardListener.PressedKeys.SetEquals(new[] { Key.LeftCtrl, Key.Space })) {
                     _parentVm.IsVisible = !_parentVm.IsVisible;
                 }
                 else if (KeyboardListener.PressedKeys.SetEquals(new Key[] { Key.LeftCtrl, Key.LeftShift, Key.Space })) {
                     Application.Current.Shutdown();
                 }
-            });
-            ForegroundWindowListener.OnForegroundWindowChanged += ((sender, args) => {
-                if (!WindowHelper.IsHandleFromThisApplication(args.ForegroundWindowHandle)) {
-                    _parentVm.ForegroundWindowHandle = args.ForegroundWindowHandle;
-                    _parentVm.ForegroundWindowTitle = args.ForegroundWindowTitle;
-                }
-            });
+            };
+            ForegroundWindowListener.OnForegroundWindowChanged += (sender, args) => {
+                if (WindowHelper.IsHandleFromThisApplication(args.ForegroundWindowHandle)) 
+                    return;
+                _parentVm.ForegroundWindowHandle = args.ForegroundWindowHandle;
+                _parentVm.ForegroundWindowTitle = args.ForegroundWindowTitle;
+            };
 
             // Reset focussed window
             NativeMethods.SetForegroundWindow(hwnd);
