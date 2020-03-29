@@ -22,7 +22,7 @@ namespace SnapNET.Model.PInvoke
         internal static extern int GetWindowText(IntPtr hWnd, StringBuilder lpWindowText, int nMaxCount);
 
         /// <summary>
-        /// Gets current foreground window (different to active, because its global and not thread specific
+        /// Gets current foreground window (different to active, because its global and not thread specific)
         /// </summary>
         /// <returns></returns>
         [DllImport("user32.dll")]

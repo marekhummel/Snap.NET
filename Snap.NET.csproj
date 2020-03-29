@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\CellSelectionEventArgs.cs" />
     <Compile Include="Model\Keyboard\KeyboardListener.cs" />
     <Compile Include="Model\Keyboard\PressedKeysChangedEventArgs.cs" />
     <Compile Include="Model\PInvoke\Constants.cs" />

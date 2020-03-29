@@ -1,5 +1,5 @@
 ﻿GridSelector
+	- Replace Rects with Custom Rect for Highlighting and their Index
 	- Design
-	- XML comments
 	- Functionality of hover finish
 	- Distingush left right click
