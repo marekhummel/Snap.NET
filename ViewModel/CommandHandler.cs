@@ -3,10 +3,30 @@ using System.Windows.Input;
 
 namespace SnapNET.ViewModel
 {
+    /// <summary>
+    /// Command class for basic xaml commands
+    /// </summary>
     internal class CommandHandler : ICommand
     {
+
+        // ***** Private members *****
+
         private readonly Action _action;
         private readonly Func<bool> _canExecute;
+
+
+        // ***** Public members *****
+
+        /// <summary>
+        /// Wires CanExecuteChanged event 
+        /// </summary>
+        public event EventHandler CanExecuteChanged {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+
+        // ***** Constructor *****
 
         /// <summary>
         /// Creates instance of the command handler
@@ -19,23 +39,21 @@ namespace SnapNET.ViewModel
             _canExecute = canExecute;
         }
 
-        /// <summary>
-        /// Wires CanExecuteChanged event 
-        /// </summary>
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
+
+        // ***** Public methods *****
 
         /// <summary>
-        /// Forcess checking if execute is allowed
+        /// Explicit check if execute is allowed
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
         public bool CanExecute(object parameter)
             => _canExecute.Invoke();
 
+        /// <summary>
+        /// Executes action
+        /// </summary>
+        /// <param name="parameter"></param>
         public void Execute(object parameter)
             => _action();
     }

@@ -17,14 +17,20 @@ namespace SnapNET.View
     public partial class GridSelector : UserControl
     {
 
-        // ***** PRIVATE FIELDS *****
+        // ***** Private members *****
 
         private int _rows;
         private int _columns;
         private List<List<Rectangle>> _rects;
-        private bool _mouseDown = false;
+        private bool _mouseDown;
         private Point _mouseDownPos;
 
+
+        // ***** Public members *****
+
+        /// <summary>
+        /// Amount of rows in the grid
+        /// </summary>
         public int Rows {
             get => _rows;
             set {
@@ -33,6 +39,9 @@ namespace SnapNET.View
             }
         }
 
+        /// <summary>
+        /// Amount of columns in the grid
+        /// </summary>
         public int Columns {
             get => _columns;
             set {
@@ -42,6 +51,8 @@ namespace SnapNET.View
         }
 
 
+        // ***** Constructor *****
+
         public GridSelector()
         {
             InitializeComponent();
@@ -49,6 +60,11 @@ namespace SnapNET.View
         }
 
 
+        // ***** Private methods *****
+
+        /// <summary>
+        /// Updates the grid (called when rows / cols change)
+        /// </summary>
         private void UpdateGrid()
         {
             // Reset grid
@@ -80,12 +96,11 @@ namespace SnapNET.View
             }
 
         }
-
-
-
-
-
-
+        
+        /// <summary>
+        /// Called when the mouse is pressed down on the control to implement selection
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
@@ -105,6 +120,10 @@ namespace SnapNET.View
             selectionBox.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Called when the mouse is released on the control to implement selection
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             base.OnMouseUp(e);
@@ -125,6 +144,10 @@ namespace SnapNET.View
             //
         }
 
+        /// <summary>
+        /// Called when the mouse is moving over the control to implement selection
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
