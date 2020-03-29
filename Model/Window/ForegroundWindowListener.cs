@@ -33,9 +33,8 @@ namespace SnapNET.Model.Window
             if (_isRunning)
                 return;
 
-            _eventDelegate = new NativeMethods.WinEventDelegate((hWinEventHook, eventType, hwnd, idObject, idChild, dwEventThread, dwmsEventTime) => {
-                OnForegroundWindowChanged?.Invoke(null, new ForegroundWindowChangedEventArgs(hwnd));
-            });
+            _eventDelegate = new NativeMethods.WinEventDelegate((hWinEventHook, eventType, hwnd, idObject, idChild, dwEventThread, dwmsEventTime) 
+                => OnForegroundWindowChanged?.Invoke(null, new ForegroundWindowChangedEventArgs(hwnd)));
 
             _hook = NativeMethods.SetWinEventHook(Constants.EVENT_SYSTEM_FOREGROUND, Constants.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _eventDelegate, 0, 0, Constants.WINEVENT_OUTOFCONTEXT);
             OnForegroundWindowChanged?.Invoke(null, new ForegroundWindowChangedEventArgs(WindowHelper.GetCurrentForegroundWindow().Handle));
@@ -50,7 +49,7 @@ namespace SnapNET.Model.Window
             if (!_isRunning)
                 return;
 
-            NativeMethods.UnhookWindowsHookEx(_hook);
+            _ = NativeMethods.UnhookWindowsHookEx(_hook);
             _isRunning = false;
         }
     }

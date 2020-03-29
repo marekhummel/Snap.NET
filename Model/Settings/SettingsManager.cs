@@ -43,7 +43,7 @@ namespace SnapNET.Model.Settings
 
             // Load json file
             string json = File.ReadAllText(fullpath);
-            Settings = (GlobalSettings)(new JavaScriptSerializer().Deserialize(json, typeof(GlobalSettings)));
+            Settings = (GlobalSettings)new JavaScriptSerializer().Deserialize(json, typeof(GlobalSettings));
         }
 
 
@@ -55,13 +55,13 @@ namespace SnapNET.Model.Settings
             string json = new JavaScriptSerializer().Serialize(Settings);
 
             if (!Directory.Exists(_settingsDir))
-                Directory.CreateDirectory(_settingsDir);
+                _ = Directory.CreateDirectory(_settingsDir);
 
             File.WriteAllText(Path.Combine(_settingsDir, _settingsFile), json);
         }
 
 
         internal static GridSettings GetGridSettings(string mon) 
-            => (Settings.GridSettings.ContainsKey(mon) ? Settings.GridSettings[mon] : new GridSettings());
+            => Settings.GridSettings.ContainsKey(mon) ? Settings.GridSettings[mon] : new GridSettings();
     }
 }

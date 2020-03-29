@@ -84,14 +84,14 @@ namespace SnapNET.Model.Settings
             var wa = mon.WorkingArea;
 
             // Dimensions of one tile
-            double tileWidth = ((wa.Width - LeftMargin - RightMargin) - (Columns - 1) * HorizontalMargin) / Columns;
-            double tileHeight = ((wa.Height - TopMargin - BottomMargin) - (Rows - 1) * VerticalMargin) / Rows;
+            double tileWidth = (wa.Width - LeftMargin - RightMargin - ((Columns - 1) * HorizontalMargin)) / Columns;
+            double tileHeight = (wa.Height - TopMargin - BottomMargin - ((Rows - 1) * VerticalMargin)) / Rows;
 
             // Args of the rect
-            double left = wa.Left + LeftMargin + idxLeft * (tileWidth + HorizontalMargin);
-            double top = wa.Top + TopMargin + idxTop * (tileHeight + VerticalMargin);
-            double width = tileWidth * (idxRight - idxLeft + 1) + HorizontalMargin * (idxRight - idxLeft);
-            double height = tileHeight * (idxBottom - idxTop + 1) + VerticalMargin * (idxBottom - idxTop);
+            double left = wa.Left + LeftMargin + (idxLeft * (tileWidth + HorizontalMargin));
+            double top = wa.Top + TopMargin + (idxTop * (tileHeight + VerticalMargin));
+            double width = (tileWidth * (idxRight - idxLeft + 1)) + (HorizontalMargin * (idxRight - idxLeft));
+            double height = (tileHeight * (idxBottom - idxTop + 1)) + (VerticalMargin * (idxBottom - idxTop));
             return new Rect(left, top, width, height);
         }
     }

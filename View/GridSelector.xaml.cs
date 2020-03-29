@@ -135,7 +135,7 @@ namespace SnapNET.View
             // Hide the drag selection box.
             selectionBox.Visibility = Visibility.Collapsed;
 
-            var mouseUpPos = e.GetPosition(mainGrid);
+            //var mouseUpPos = e.GetPosition(mainGrid);
             // TODO: 
             //
             // The mouse has been released, check to see if any of the items 

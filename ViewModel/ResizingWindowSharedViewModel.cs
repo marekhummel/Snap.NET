@@ -57,14 +57,13 @@ namespace SnapNET.ViewModel
         /// Command to minimize windows
         /// </summary>
         public ICommand ExitCommand
-            => _exitCommand ?? (_exitCommand = new CommandHandler(() => { IsVisible = false; }, () => true));
+            => _exitCommand ?? (_exitCommand = new CommandHandler(() => IsVisible = false, () => true));
 
         /// <summary>
         /// Command to save settings
         /// </summary>
         public ICommand SaveCommand
-            => _saveCommand ?? (_saveCommand = new CommandHandler(() => {
-                Model.Settings.SettingsManager.StoreSettings();
-            }, () => true));
+            => _saveCommand ?? (_saveCommand = new CommandHandler(() 
+                => Model.Settings.SettingsManager.StoreSettings(), () => true));
     }
 }

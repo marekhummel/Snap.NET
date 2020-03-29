@@ -41,7 +41,7 @@ namespace SnapNET.Model.Monitor
         private Monitor(IntPtr monitor)
         {
             var info = new MonitorInfoEx();
-            NativeMethods.GetMonitorInfo(monitor, info);
+            _ = NativeMethods.GetMonitorInfo(monitor, info);
             Bounds = new System.Windows.Rect(
                         info.rcMonitor.left, info.rcMonitor.top,
                         info.rcMonitor.right - info.rcMonitor.left,
@@ -50,7 +50,7 @@ namespace SnapNET.Model.Monitor
                        info.rcWork.left, info.rcWork.top,
                        info.rcWork.right - info.rcWork.left,
                        info.rcWork.bottom - info.rcWork.top);
-            IsPrimary = ((info.dwFlags & MonitorInfoEx.MonitorPrimaryFlag) != 0);
+            IsPrimary = (info.dwFlags & MonitorInfoEx.MonitorPrimaryFlag) != 0;
             Name = new string(info.szDevice).TrimEnd((char)0);
         }
 
@@ -68,7 +68,7 @@ namespace SnapNET.Model.Monitor
                 monitors.Add(new Monitor(monPtr));
                 return true;
             });
-            NativeMethods.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, proc, IntPtr.Zero);
+            _ = NativeMethods.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, proc, IntPtr.Zero);
             return monitors;
         }
     }

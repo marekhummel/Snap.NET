@@ -50,6 +50,7 @@ namespace SnapNET
             foreach (var mon in Monitor.GetAllMonitors()) {
                 // Viewmodel
                 var vm = new ResizingWindowViewModel(_parentVm, mon, SettingsManager.GetGridSettings(mon.Name));
+                _childVms.Add(vm);
 
                 // Window
                 var rw = new ResizingWindow();
@@ -59,7 +60,7 @@ namespace SnapNET
 
                 // Bindings
                 var visBind = new Binding("Shared.IsVisible") { Source = vm, Converter = new BooleanToVisibilityConverter(), Mode = BindingMode.TwoWay };
-                rw.SetBinding(Window.VisibilityProperty, visBind);
+                _ = rw.SetBinding(Window.VisibilityProperty, visBind);
 
                 // Show
                 _resWindows.Add(rw);
@@ -89,7 +90,7 @@ namespace SnapNET
             };
 
             // Reset focussed window
-            NativeMethods.SetForegroundWindow(hwnd);
+            _ = NativeMethods.SetForegroundWindow(hwnd);
 
             // Start listeners
             KeyboardListener.StartListener();

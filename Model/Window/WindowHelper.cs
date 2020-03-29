@@ -30,7 +30,7 @@ namespace SnapNET.Model.Window
         internal static string GetWindowTitle(IntPtr hWnd)
         {
             var sbTitle = new StringBuilder(255);
-            NativeMethods.GetWindowText(hWnd, sbTitle, sbTitle.Capacity + 1);
+            _ = NativeMethods.GetWindowText(hWnd, sbTitle, sbTitle.Capacity + 1);
             return sbTitle.ToString();
         }
 
@@ -47,7 +47,7 @@ namespace SnapNET.Model.Window
         {
             // Window is maximized, minimize it to calc margin size
             if (IsWindowMaximized(hWnd)) {
-                NativeMethods.ShowWindow(hWnd, Constants.SW_SHOWNORMAL);
+                _ = NativeMethods.ShowWindow(hWnd, Constants.SW_SHOWNORMAL);
             }
 
             // Get window margin
@@ -65,7 +65,7 @@ namespace SnapNET.Model.Window
 
             // Focus
             if (focusAfterResizing)
-                NativeMethods.SetForegroundWindow(hWnd);
+                _ = NativeMethods.SetForegroundWindow(hWnd);
 
             // ToDo: Set to maximized if rect covers full screen ?
         }
@@ -77,7 +77,7 @@ namespace SnapNET.Model.Window
         /// <returns></returns>
         internal static bool IsHandleFromThisApplication(IntPtr hWnd)
         {
-            NativeMethods.GetWindowThreadProcessId(hWnd, out uint pid);
+            _ = NativeMethods.GetWindowThreadProcessId(hWnd, out uint pid);
             return pid == System.Diagnostics.Process.GetCurrentProcess().Id;
         }
 
@@ -93,8 +93,8 @@ namespace SnapNET.Model.Window
         /// <returns></returns>
         private static Rect GetSystemWindowMargins(IntPtr hWnd)
         {
-            NativeMethods.GetWindowRect(hWnd, out var extendendRect);
-            NativeMethods.DwmGetWindowAttribute(hWnd, Constants.DWMWA_EXTENDED_FRAME_BOUNDS, out var visRect, Marshal.SizeOf<Rect>());
+            _ = NativeMethods.GetWindowRect(hWnd, out var extendendRect);
+            _ = NativeMethods.DwmGetWindowAttribute(hWnd, Constants.DWMWA_EXTENDED_FRAME_BOUNDS, out var visRect, Marshal.SizeOf<Rect>());
             return new Rect() {
                 left = visRect.left - extendendRect.left,
                 top = visRect.top - extendendRect.top,

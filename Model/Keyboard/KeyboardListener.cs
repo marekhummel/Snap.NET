@@ -51,14 +51,14 @@ namespace SnapNET.Model.Keyboard
             // Key down
             _hooks.Add(AddKeyboardCallback((keyInt) => {
                 var key = KeyInterop.KeyFromVirtualKey(keyInt);
-                PressedKeys.Add(key);
+                _ = PressedKeys.Add(key);
                 OnPressedKeysChanged?.Invoke(null, new PressedKeysChangedEventArgs(key, true));
             }, Constants.WM_KEYDOWN));
 
             // Key up
             _hooks.Add(AddKeyboardCallback((keyInt) => {
                 var key = KeyInterop.KeyFromVirtualKey(keyInt);
-                PressedKeys.Remove(key);
+                _ = PressedKeys.Remove(key);
                 OnPressedKeysChanged?.Invoke(null, new PressedKeysChangedEventArgs(key, false));
             }, Constants.WM_KEYUP));
 
@@ -75,7 +75,7 @@ namespace SnapNET.Model.Keyboard
 
             // Unhook everything
             foreach (var hook in _hooks)
-                NativeMethods.UnhookWindowsHookEx(hook);
+                _ = NativeMethods.UnhookWindowsHookEx(hook);
 
             _isRunning = false;
         }
