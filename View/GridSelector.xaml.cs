@@ -7,6 +7,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
+using SnapNET.Model;
+
 namespace SnapNET.View
 {
     /// <summary>
@@ -15,10 +17,13 @@ namespace SnapNET.View
     public partial class GridSelector : UserControl
     {
 
+        // ***** PRIVATE FIELDS *****
+
         private int _rows;
         private int _columns;
         private List<List<Rectangle>> _rects;
-
+        private bool _mouseDown = false;
+        private Point _mouseDownPos;
 
         public int Rows {
             get => _rows;
@@ -35,13 +40,6 @@ namespace SnapNET.View
                 UpdateGrid();
             }
         }
-
-
-        public new Thickness Padding {
-            get => rectGrid.Margin;
-            set => rectGrid.Margin = value;
-        }
-
 
 
         public GridSelector()
@@ -85,22 +83,21 @@ namespace SnapNET.View
 
 
 
-        bool mouseDown = false; // Set to 'true' when mouse is held down.
-        Point mouseDownPos; // The point where the mouse button was clicked down.
 
-        
+
+
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
 
             // Capture and track the mouse.
-            mouseDown = true;
-            mouseDownPos = e.GetPosition(mainGrid);
-            mainGrid.CaptureMouse();
+            _mouseDown = true;
+            _mouseDownPos = e.GetPosition(mainGrid);
+            _ = mainGrid.CaptureMouse();
 
             // Initial placement of the drag selection box.         
-            Canvas.SetLeft(selectionBox, mouseDownPos.X);
-            Canvas.SetTop(selectionBox, mouseDownPos.Y);
+            Canvas.SetLeft(selectionBox, _mouseDownPos.X);
+            Canvas.SetTop(selectionBox, _mouseDownPos.Y);
             selectionBox.Width = 0;
             selectionBox.Height = 0;
 
@@ -113,14 +110,13 @@ namespace SnapNET.View
             base.OnMouseUp(e);
 
             // Release the mouse capture and stop tracking it.
-            mouseDown = false;
+            _mouseDown = false;
             mainGrid.ReleaseMouseCapture();
 
             // Hide the drag selection box.
             selectionBox.Visibility = Visibility.Collapsed;
 
             var mouseUpPos = e.GetPosition(mainGrid);
-
             // TODO: 
             //
             // The mouse has been released, check to see if any of the items 
@@ -129,32 +125,40 @@ namespace SnapNET.View
             //
         }
 
-        protected override void OnMouseMove(MouseEventArgs e) 
+        protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            if (mouseDown) {
-                // Update selection rectangle
-                var mousePos = e.GetPosition(mainGrid);
+            if (!_mouseDown)
+                return;
 
-                double left = Math.Min(mouseDownPos.X, mousePos.X);
-                double width = Math.Abs(mousePos.X - mouseDownPos.X);
-                double top = Math.Min(mouseDownPos.Y, mousePos.Y);
-                double height = Math.Abs(mousePos.Y - mouseDownPos.Y);
+            // Clamp mousepos in selector area
+            var mousePos = e.GetPosition(mainGrid);
 
-                Canvas.SetLeft(selectionBox, left);
-                Canvas.SetTop(selectionBox, top);
-                selectionBox.Width = width;
-                selectionBox.Height = height;
+            // Although the selection rectangle needs to be relative to the main grid, clamping needs to be done on the whole control
+            var realMousePos = e.GetPosition(this);
+            var (clampedX, clampedY) = (Util.Clamp(0, ActualWidth, realMousePos.X), 
+                                        Util.Clamp(0, ActualHeight, realMousePos.Y));
+            mousePos = new Point(mousePos.X + (clampedX - realMousePos.X), mousePos.Y + (clampedY - realMousePos.Y));
 
-                // Update highlighted rects
-                var selection = new Rect(left, top, width, height);
-                foreach (var rect in _rects.SelectMany(row => row)) {
-                    var r = new Rect(Canvas.GetLeft(rect), Canvas.GetTop(rect), rect.Width, rect.Height);
-                    bool intersect = selection.IntersectsWith(r);
-                    rect.Fill = intersect ? Brushes.Green : Brushes.Red;
-                }
+            // Update selection rectangle
+            double left = Math.Min(_mouseDownPos.X, mousePos.X);
+            double width = Math.Abs(mousePos.X - _mouseDownPos.X);
+            double top = Math.Min(_mouseDownPos.Y, mousePos.Y);
+            double height = Math.Abs(mousePos.Y - _mouseDownPos.Y);
+
+            Canvas.SetLeft(selectionBox, left);
+            Canvas.SetTop(selectionBox, top);
+            selectionBox.Width = width;
+            selectionBox.Height = height;
+
+            // Update highlighted rects
+            var selection = new Rect(left, top, width, height);
+            foreach (var rect in _rects.SelectMany(row => row)) {
+                var rectLoc = rect.TransformToAncestor(mainGrid).Transform(new Point(0, 0));
+                var r = new Rect(rectLoc.X, rectLoc.Y, rect.ActualWidth, rect.ActualHeight);
+                bool intersect = selection.IntersectsWith(r);
+                rect.Fill = intersect ? Brushes.Green : Brushes.Red;
             }
         }
-
     }
 }

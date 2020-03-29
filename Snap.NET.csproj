@@ -63,6 +63,7 @@
     <Compile Include="Model\PInvoke\MonitorInfoEx.cs" />
     <Compile Include="Model\PInvoke\Rect.cs" />
     <Compile Include="Model\Settings\SettingsManager.cs" />
+    <Compile Include="Model\Util.cs" />
     <Compile Include="Model\Window\ForegroundWindowListener.cs" />
     <Compile Include="Model\Window\ForegroundWindowChangedEventArgs.cs" />
     <Compile Include="Model\Window\WindowHelper.cs" />
@@ -119,6 +120,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="ToDo.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

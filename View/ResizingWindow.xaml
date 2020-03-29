@@ -70,11 +70,10 @@
                 VerticalAlignment="Top"
                 Width="90" 
                 Command="{Binding Shared.SaveCommand}" RenderTransformOrigin="0.556,-1"/>
-        <local:GridSelector Background="AliceBlue" 
-                            Margin="0,162,0,95" 
+        <local:GridSelector Margin="0,162,0,95" 
                             Rows="6" 
                             Columns="6"
-                            Padding="35,20">
+                            Padding="40,20">
         </local:GridSelector>
         <ListBox x:Name="listBox"
                  HorizontalAlignment="Left"

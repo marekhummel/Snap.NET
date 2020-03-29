@@ -1,0 +1,5 @@
+﻿GridSelector
+	- Design
+	- XML comments
+	- Functionality of hover finish
+	- Distingush left right click
