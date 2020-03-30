@@ -21,7 +21,7 @@ namespace SnapNET.View
 
         private int _rows;
         private int _columns;
-        private List<List<Rectangle>> _rects;
+        private List<GridCell> _cells;
         private bool _mouseDown;
         private Point _mouseDownPos;
 
@@ -61,7 +61,7 @@ namespace SnapNET.View
         public GridSelector()
         {
             InitializeComponent();
-            _rects = new List<List<Rectangle>>();
+            _cells = new List<GridCell>();
         }
 
 
@@ -76,7 +76,7 @@ namespace SnapNET.View
             rectGrid.RowDefinitions.Clear();
             rectGrid.ColumnDefinitions.Clear();
             rectGrid.Children.Clear();
-            _rects = new List<List<Rectangle>>();
+            _cells = new List<GridCell>();
 
             // Add row / col definitions
             for (int i = 0; i < Rows; i++)
@@ -85,19 +85,17 @@ namespace SnapNET.View
                 rectGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
             // Add hoverable rects
-            for (int i = 0; i < Rows; i++) {
-                var row = new List<Rectangle>();
-                for (int j = 0; j < Columns; j++) {
+            for (int r = 0; r < Rows; r++) {
+                for (int c = 0; c < Columns; c++) {
                     // Create rect
-                    var rect = new Rectangle { Fill = Brushes.Yellow, Margin = new Thickness(2) };
+                    var rect = new GridCell() { Index = (r, c) };
 
                     // Add to grid
-                    Grid.SetRow(rect, i);
-                    Grid.SetColumn(rect, j);
+                    Grid.SetRow(rect, r);
+                    Grid.SetColumn(rect, c);
                     _ = rectGrid.Children.Add(rect);
-                    row.Add(rect);
+                    _cells.Add(rect);
                 }
-                _rects.Add(row);
             }
 
         }
@@ -134,11 +132,18 @@ namespace SnapNET.View
             selectionBox.Visibility = Visibility.Collapsed;
 
             // Raise event so the window can adjust
-            //var (rowStart, colStart, rowSpan, colSpan) = (-1, -1, 0, 0);
-            //foreach (var row in _rects) {
-            //    if (row[0].)
-            //}
+            var selectedCells = _cells.Where(cell => cell.IsHighlighted);
+            int rowMin = selectedCells.OrderBy(cell => cell.Index.Row).First().Index.Row;
+            int rowMax = selectedCells.OrderByDescending(cell => cell.Index.Row).First().Index.Row;
+            int colMin = selectedCells.OrderBy(cell => cell.Index.Column).First().Index.Column;
+            int colMax = selectedCells.OrderByDescending(cell => cell.Index.Column).First().Index.Column;
 
+            var eventArgs = new CellSelectionEventArgs(rowMin, rowMax - rowMin + 1, colMin, colMax - colMin + 1);
+            OnCellSelection?.Invoke(this, eventArgs);
+
+            // Reset highlighting
+            foreach (var cell in _cells)
+                cell.IsHighlighted = false;
         }
 
         /// <summary>
@@ -169,14 +174,12 @@ namespace SnapNET.View
 
             // ** Update highlighted rects
             var selection = new Rect(left, top, width, height);
-            foreach (var row in _rects) {
-                foreach (var rectObj in row) {
-                    // Check intersection of grid cell with selection
-                    var rectLoc = rectObj.TransformToAncestor(mainGrid).Transform(new Point(0, 0));
-                    var rect = new Rect(rectLoc.X, rectLoc.Y, rectObj.ActualWidth, rectObj.ActualHeight);
-                    bool intersect = selection.IntersectsWith(rect);
-                    rectObj.Fill = intersect ? Brushes.Green : Brushes.Red;
-                }
+            foreach (var rectObj in _cells) {
+                // Check intersection of grid cell with selection
+                var rectLoc = rectObj.TransformToAncestor(mainGrid).Transform(new Point(0, 0));
+                var rect = new Rect(rectLoc.X, rectLoc.Y, rectObj.ActualWidth, rectObj.ActualHeight);
+                bool intersect = selection.IntersectsWith(rect);
+                rectObj.IsHighlighted = intersect;
             }
         }
 
