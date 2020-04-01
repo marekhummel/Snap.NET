@@ -12,6 +12,7 @@ namespace SnapNET.View
         // ***** Private members *****
 
         private bool _isHighlighted = false;
+        private readonly Brush _highlightedFill = new SolidColorBrush(Color.FromArgb(100, 200, 200, 200));
 
 
         // ***** Public members *****
@@ -28,7 +29,7 @@ namespace SnapNET.View
             get => _isHighlighted;
             set {
                 _isHighlighted = value;
-                Rect.Fill = _isHighlighted ? Brushes.Green : Brushes.Red;
+                Rect.Background = _isHighlighted ? _highlightedFill : Brushes.Transparent;
             }
         }
 

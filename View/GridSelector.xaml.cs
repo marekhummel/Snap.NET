@@ -50,10 +50,26 @@ namespace SnapNET.View
             }
         }
 
-        /// <summary>
-        /// Event when selection finished
-        /// </summary>
-        public event EventHandler<CellSelectionEventArgs> OnCellSelection;
+
+
+        public (int left, int top, int width, int height) Selection {
+            get => (ValueTuple<int, int, int, int>)GetValue(SelectionProperty);
+            set => SetValue(SelectionProperty, value);
+        }
+
+        // ToDo: Implement setter
+        public static readonly DependencyProperty SelectionProperty =
+            DependencyProperty.Register(nameof(Selection), typeof(ValueTuple<int, int, int, int>), typeof(GridSelector)
+                ); //, new PropertyMetadata((0, 0, 0, 0), new PropertyChangedCallback((d, e) => { }))
+
+
+        public ICommand SelectionCommand {
+            get => (ICommand)GetValue(SelectionCommandProperty);
+            set => SetValue(SelectionCommandProperty, value);
+        }
+
+        public static readonly DependencyProperty SelectionCommandProperty =
+            DependencyProperty.Register(nameof(SelectionCommand), typeof(ICommand), typeof(GridSelector)); //, new PropertyMetadata(0));
 
 
         // ***** Constructor *****
@@ -133,13 +149,15 @@ namespace SnapNET.View
 
             // Raise event so the window can adjust
             var selectedCells = _cells.Where(cell => cell.IsHighlighted);
-            int rowMin = selectedCells.OrderBy(cell => cell.Index.Row).First().Index.Row;
-            int rowMax = selectedCells.OrderByDescending(cell => cell.Index.Row).First().Index.Row;
-            int colMin = selectedCells.OrderBy(cell => cell.Index.Column).First().Index.Column;
-            int colMax = selectedCells.OrderByDescending(cell => cell.Index.Column).First().Index.Column;
+            if (selectedCells.Any()) {
+                int rowMin = selectedCells.OrderBy(cell => cell.Index.Row).First().Index.Row;
+                int rowMax = selectedCells.OrderByDescending(cell => cell.Index.Row).First().Index.Row;
+                int colMin = selectedCells.OrderBy(cell => cell.Index.Column).First().Index.Column;
+                int colMax = selectedCells.OrderByDescending(cell => cell.Index.Column).First().Index.Column;
 
-            var eventArgs = new CellSelectionEventArgs(rowMin, rowMax - rowMin + 1, colMin, colMax - colMin + 1);
-            OnCellSelection?.Invoke(this, eventArgs);
+                Selection = (colMin, rowMin, colMax - colMin + 1, rowMax - rowMin + 1);
+                SelectionCommand?.Execute(null);
+            }
 
             // Reset highlighting
             foreach (var cell in _cells)

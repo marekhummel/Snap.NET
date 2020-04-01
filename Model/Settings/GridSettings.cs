@@ -71,13 +71,13 @@ namespace SnapNET.Model.Settings
         /// </summary>
         /// <param name="mon"></param>
         /// <param name="idxLeft"></param>
-        /// <param name="idxRight"></param>
+        /// <param name="idxWidth"></param>
         /// <param name="idxTop"></param>
-        /// <param name="idxBottom"></param>
+        /// <param name="idxHeight"></param>
         /// <returns></returns>
-        public Rect GetTileSpanAtIndices(Monitor.Monitor mon, int idxLeft, int idxRight, int idxTop, int idxBottom)
+        public Rect GetTileSpanAtIndices(Monitor.Monitor mon, int idxLeft, int idxWidth, int idxTop, int idxHeight)
         {
-            if (idxLeft < 0 || idxRight >= Columns || idxTop < 0 ||idxBottom >= Rows || idxLeft > idxRight || idxTop > idxBottom)
+            if (idxLeft < 0 || idxLeft + idxWidth > Columns || idxTop < 0 || idxTop + idxHeight > Rows)
                 throw new ArgumentOutOfRangeException("Indices out of range");
 
             // Absolute dimensions of monitor
@@ -90,8 +90,8 @@ namespace SnapNET.Model.Settings
             // Args of the rect
             double left = wa.Left + LeftMargin + (idxLeft * (tileWidth + HorizontalMargin));
             double top = wa.Top + TopMargin + (idxTop * (tileHeight + VerticalMargin));
-            double width = (tileWidth * (idxRight - idxLeft + 1)) + (HorizontalMargin * (idxRight - idxLeft));
-            double height = (tileHeight * (idxBottom - idxTop + 1)) + (VerticalMargin * (idxBottom - idxTop));
+            double width = (tileWidth * idxWidth) + (HorizontalMargin * (idxWidth - 1));
+            double height = (tileHeight * idxHeight) + (VerticalMargin * (idxHeight - 1));
             return new Rect(left, top, width, height);
         }
     }

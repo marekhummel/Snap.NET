@@ -3,10 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:local="clr-namespace:SnapNET.View"
         mc:Ignorable="d"
-        Height="465"
+        Height="330"
         Width="400"
         WindowStyle="None"
         ResizeMode="NoResize"
@@ -45,7 +44,6 @@
                  HorizontalContentAlignment="Center"
                  VerticalContentAlignment="Center"
                  Text="{Binding Shared.ForegroundWindowTitle}" />
-        <!--<Grid Margin="10,70,10,0" Height="220" VerticalAlignment="Top" Grid.RowSpan="6" Grid.ColumnSpan="6"/>-->
         <TextBox x:Name="pressedKeysTextBox"
                  HorizontalAlignment="Left"
                  Height="30"
@@ -55,39 +53,14 @@
                  Width="320"
                  HorizontalContentAlignment="Center"
                  VerticalContentAlignment="Center" />
-        <Button x:Name="snapTest1Button"
-                Content="1"
-                HorizontalAlignment="Left"
-                Height="35"
-                Margin="40,122,0,0"
-                VerticalAlignment="Top"
-                Width="90"
-                Command="{Binding ResizeCommand}" />
-        <Button x:Name="snapTest2Button"
-                Content="2"
-                HorizontalAlignment="Left"
-                Height="35"
-                Margin="270,122,0,0"
-                VerticalAlignment="Top"
-                Width="90" 
-                Command="{Binding Shared.SaveCommand}"/>
-        <local:GridSelector Margin="0,162,0,95" 
+        <local:GridSelector Margin="0,115,0,0" 
                             Rows="6" 
                             Columns="6"
                             Padding="39,20"
-                            OnCellSelection="GridSelector_OnCellSelection">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="OnCellSelection" >
-                    <i:InvokeCommandAction Command="{Binding ResizeCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+                            Selection="{Binding GridSelection, Mode=OneWayToSource}" 
+                            SelectionCommand="{Binding ResizeCommand}"
+                            Height="218" 
+                            VerticalAlignment="Top">
         </local:GridSelector>
-        <ListBox x:Name="listBox"
-                 HorizontalAlignment="Left"
-                 Height="50"
-                 Margin="40,395,0,0"
-                 VerticalAlignment="Top"
-                 Width="320">
-        </ListBox>
     </Grid>
 </Window>  
