@@ -124,14 +124,24 @@ namespace SnapNET.View
         {
             base.OnMouseDown(e);
 
-            // Capture and track the mouse.
-            _mouseDown = true;
-            _mouseDownPos = e.GetPosition(mainGrid);
-            _ = mainGrid.CaptureMouse();
+            // ** Left starts selection, right aborts
+            switch (e.ChangedButton) {
+                case MouseButton.Right:
+                    // Reset selection
+                    ResetSelection();
+                    break;
 
-            // Initial placement of the drag selection box
-            UpdateSelectionBox(_mouseDownPos.X, _mouseDownPos.Y, 0, 0);
-            selectionBox.Visibility = Visibility.Visible;
+                case MouseButton.Left:
+                    // Capture and track the mouse.
+                    _mouseDown = true;
+                    _mouseDownPos = e.GetPosition(mainGrid);
+                    _ = mainGrid.CaptureMouse();
+
+                    // Initial placement of the drag selection box
+                    UpdateSelectionBox(_mouseDownPos.X, _mouseDownPos.Y, 0, 0);
+                    selectionBox.Visibility = Visibility.Visible;
+                    break;
+            }
         }
 
         /// <summary>
@@ -141,11 +151,8 @@ namespace SnapNET.View
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             base.OnMouseUp(e);
-
-            // Release the mouse capture and stop tracking it.
-            _mouseDown = false;
-            mainGrid.ReleaseMouseCapture();
-            selectionBox.Visibility = Visibility.Collapsed;
+            if (e.ChangedButton != MouseButton.Left)
+                return;
 
             // Raise event so the window can adjust
             var selectedCells = _cells.Where(cell => cell.IsHighlighted);
@@ -160,8 +167,7 @@ namespace SnapNET.View
             }
 
             // Reset highlighting
-            foreach (var cell in _cells)
-                cell.IsHighlighted = false;
+            ResetSelection();
         }
 
         /// <summary>
@@ -199,6 +205,20 @@ namespace SnapNET.View
                 bool intersect = selection.IntersectsWith(rect);
                 rectObj.IsHighlighted = intersect;
             }
+        }
+
+        /// <summary>
+        /// Resets the selection (either on mouse up or right click)
+        /// </summary>
+        private void ResetSelection()
+        {
+            _mouseDown = false;
+            mainGrid.ReleaseMouseCapture();
+            selectionBox.Visibility = Visibility.Collapsed;
+            Selection = (0, 0, 0, 0);
+            // Reset highlighting
+            foreach (var cell in _cells)
+                cell.IsHighlighted = false;
         }
 
         /// <summary>
