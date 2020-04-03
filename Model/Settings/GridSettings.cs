@@ -75,7 +75,7 @@ namespace SnapNET.Model.Settings
         /// <param name="idxTop"></param>
         /// <param name="idxHeight"></param>
         /// <returns></returns>
-        public Rect GetTileSpanAtIndices(Monitor.Monitor mon, int idxLeft, int idxWidth, int idxTop, int idxHeight)
+        public Rect ApplyIndicesToMonitor(Monitor.Monitor mon, int idxLeft, int idxWidth, int idxTop, int idxHeight)
         {
             if (idxLeft < 0 || idxLeft + idxWidth > Columns || idxTop < 0 || idxTop + idxHeight > Rows)
                 throw new ArgumentOutOfRangeException("Indices out of range");

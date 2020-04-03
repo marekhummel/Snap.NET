@@ -16,6 +16,7 @@ namespace SnapNET.ViewModel
         private ICommand _resizeCommand;
         private readonly Monitor _monitor;
         private readonly GridSettings _gridSettings;
+        private (int, int, int, int) _gridSelection;
 
 
         // ***** Public members *****
@@ -25,8 +26,9 @@ namespace SnapNET.ViewModel
         /// </summary>
         public ResizingWindowSharedViewModel Shared { get; private set; }
 
-
-        private (int, int, int, int) _gridSelection;
+        /// <summary>
+        /// Current selection in the grid
+        /// </summary>
         public (int l, int t, int w, int h) GridSelection {
             get => _gridSelection;
             set {
@@ -35,14 +37,13 @@ namespace SnapNET.ViewModel
             }
         }
 
-
         /// <summary>
         /// Test command to resize
         /// </summary>
         public ICommand ResizeCommand
             => _resizeCommand ?? (_resizeCommand = new CommandHandler(() => {
                 var (l, t, w, h) = GridSelection;
-                var rect = _gridSettings.GetTileSpanAtIndices(_monitor, l, w, t, h);
+                var rect = _gridSettings.ApplyIndicesToMonitor(_monitor, l, w, t, h);
                 WindowHelper.SetWindowSize(Shared.ForegroundWindowHandle, rect.Left, rect.Top, rect.Width, rect.Height, true);
             }, () => true));
 

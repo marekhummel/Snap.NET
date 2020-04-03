@@ -1,4 +1,3 @@
-﻿GridSelector
-	- Design
-	- Functionality of hover finish (more dependency properties!)
-	- Distingush left right click
+﻿ToolTip
+Settings
+Application name + icon ?

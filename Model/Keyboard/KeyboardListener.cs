@@ -13,7 +13,7 @@ namespace SnapNET.Model.Keyboard
     internal static class KeyboardListener
     {
         // ***** Private members *****
-
+        
         private static bool _isRunning;
         private static readonly List<IntPtr> _hooks = new List<IntPtr>();
         private static readonly List<NativeMethods.LowLevelKeyboardProc> _hookCallbacks = new List<NativeMethods.LowLevelKeyboardProc>();
