@@ -59,8 +59,7 @@ namespace SnapNET.View
 
         // ToDo: Implement setter
         public static readonly DependencyProperty SelectionProperty =
-            DependencyProperty.Register(nameof(Selection), typeof(ValueTuple<int, int, int, int>), typeof(GridSelector)
-                ); //, new PropertyMetadata((0, 0, 0, 0), new PropertyChangedCallback((d, e) => { }))
+            DependencyProperty.Register(nameof(Selection), typeof(ValueTuple<int, int, int, int>), typeof(GridSelector)); 
 
 
         public ICommand SelectionCommand {
@@ -69,7 +68,7 @@ namespace SnapNET.View
         }
 
         public static readonly DependencyProperty SelectionCommandProperty =
-            DependencyProperty.Register(nameof(SelectionCommand), typeof(ICommand), typeof(GridSelector)); //, new PropertyMetadata(0));
+            DependencyProperty.Register(nameof(SelectionCommand), typeof(ICommand), typeof(GridSelector));
 
 
         // ***** Constructor *****
@@ -89,16 +88,16 @@ namespace SnapNET.View
         private void UpdateGrid()
         {
             // Reset grid
-            rectGrid.RowDefinitions.Clear();
-            rectGrid.ColumnDefinitions.Clear();
-            rectGrid.Children.Clear();
+            mainGrid.RowDefinitions.Clear();
+            mainGrid.ColumnDefinitions.Clear();
+            mainGrid.Children.Clear();
             _cells = new List<GridCell>();
 
             // Add row / col definitions
             for (int i = 0; i < Rows; i++)
-                rectGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                mainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
             for (int j = 0; j < Columns; j++)
-                rectGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                mainGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
             // Add hoverable rects
             for (int r = 0; r < Rows; r++) {
@@ -109,11 +108,10 @@ namespace SnapNET.View
                     // Add to grid
                     Grid.SetRow(rect, r);
                     Grid.SetColumn(rect, c);
-                    _ = rectGrid.Children.Add(rect);
+                    _ = mainGrid.Children.Add(rect);
                     _cells.Add(rect);
                 }
             }
-
         }
         
         /// <summary>
@@ -136,10 +134,6 @@ namespace SnapNET.View
                     _mouseDown = true;
                     _mouseDownPos = e.GetPosition(mainGrid);
                     _ = mainGrid.CaptureMouse();
-
-                    // Initial placement of the drag selection box
-                    UpdateSelectionBox(_mouseDownPos.X, _mouseDownPos.Y, 0, 0);
-                    selectionBox.Visibility = Visibility.Visible;
                     break;
             }
         }
@@ -189,15 +183,14 @@ namespace SnapNET.View
                                         Util.Clamp(0, ActualHeight, realMousePos.Y));
             mousePos = new Point(mousePos.X + (clampedX - realMousePos.X), mousePos.Y + (clampedY - realMousePos.Y));
 
-            // ** Update selection rectangle
+
+            // ** Update highlighted rects
             double left = Math.Min(_mouseDownPos.X, mousePos.X);
             double width = Math.Abs(mousePos.X - _mouseDownPos.X);
             double top = Math.Min(_mouseDownPos.Y, mousePos.Y);
             double height = Math.Abs(mousePos.Y - _mouseDownPos.Y);
-            UpdateSelectionBox(left, top, width, height);
-
-            // ** Update highlighted rects
             var selection = new Rect(left, top, width, height);
+
             foreach (var rectObj in _cells) {
                 // Check intersection of grid cell with selection
                 var rectLoc = rectObj.TransformToAncestor(mainGrid).Transform(new Point(0, 0));
@@ -214,26 +207,10 @@ namespace SnapNET.View
         {
             _mouseDown = false;
             mainGrid.ReleaseMouseCapture();
-            selectionBox.Visibility = Visibility.Collapsed;
             Selection = (0, 0, 0, 0);
             // Reset highlighting
             foreach (var cell in _cells)
                 cell.IsHighlighted = false;
-        }
-
-        /// <summary>
-        /// Updates selection box 
-        /// </summary>
-        /// <param name="left">The X coordinate of the top left point</param>
-        /// <param name="top">The Y coordinate of the top left point</param>
-        /// <param name="width">The width of the box</param>
-        /// <param name="height">The height of the box</param>
-        private void UpdateSelectionBox(double left, double top, double width, double height)
-        {
-            Canvas.SetLeft(selectionBox, left);
-            Canvas.SetTop(selectionBox, top);
-            selectionBox.Width = width;
-            selectionBox.Height = height;
         }
     }
 }

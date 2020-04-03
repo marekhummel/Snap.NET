@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace SnapNET.View
@@ -8,13 +9,7 @@ namespace SnapNET.View
     /// </summary>
     public partial class GridCell : UserControl
     {
-
-        // ***** Private members *****
-
-        private bool _isHighlighted = false;
-        private readonly Brush _highlightedFill = new SolidColorBrush(Color.FromArgb(100, 200, 200, 200));
-
-
+ 
         // ***** Public members *****
 
         /// <summary>
@@ -22,16 +17,20 @@ namespace SnapNET.View
         /// </summary>
         public (int Row, int Column) Index { get; set; }
 
+
+
         /// <summary>
         /// Flag if this cell is selected
         /// </summary>
         public bool IsHighlighted {
-            get => _isHighlighted;
-            set {
-                _isHighlighted = value;
-                Rect.Background = _isHighlighted ? _highlightedFill : Brushes.Transparent;
-            }
+            get => (bool)GetValue(IsHighlightedProperty);
+            set => SetValue(IsHighlightedProperty, value);
         }
+
+        
+        public static readonly DependencyProperty IsHighlightedProperty =
+            DependencyProperty.Register(nameof(IsHighlighted), typeof(bool), typeof(GridCell));
+
 
         /// <summary>
         /// Constructor

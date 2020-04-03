@@ -1,16 +1,71 @@
 ﻿<UserControl x:Class="SnapNET.View.GridCell"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:SnapNET.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="50">
+             mc:Ignorable="d"
+             d:DesignHeight="50"
+             d:DesignWidth="50">
     <Grid Margin="2">
         <Border x:Name="Rect"
                 CornerRadius="7"
                 BorderThickness="2"
-                BorderBrush="LightGray"
-                Background="Transparent" />
+                BorderBrush="LightGray">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background"
+                            Value="Transparent" />
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation To="#64808080"
+                                                        Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                                        FillBehavior="HoldEnd"
+                                                        Duration="0:0:0.25" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation To="Transparent"
+                                                        Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                                        FillBehavior="Stop"
+                                                        Duration="0:0:0.25" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <DataTrigger Binding="{Binding Path=IsHighlighted, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:GridCell}}, Mode=TwoWay}"
+                                     Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation To="#64E6E6E6"
+                                                        Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                                        FillBehavior="HoldEnd"
+                                                        Duration="0:0:0.25" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation To="Transparent"
+                                                        Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                                        FillBehavior="Stop"
+                                                        Duration="0:0:0.25" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
     </Grid>
 </UserControl>
