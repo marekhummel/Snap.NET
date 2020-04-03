@@ -9,14 +9,13 @@ namespace SnapNET.View
     /// </summary>
     public partial class GridCell : UserControl
     {
- 
+
         // ***** Public members *****
 
         /// <summary>
         /// Index of this cell in the grid
         /// </summary>
         public (int Row, int Column) Index { get; set; }
-
 
 
         /// <summary>
@@ -27,9 +26,14 @@ namespace SnapNET.View
             set => SetValue(IsHighlightedProperty, value);
         }
 
-        
+
+        // *** DependencyProperties ***
+
         public static readonly DependencyProperty IsHighlightedProperty =
             DependencyProperty.Register(nameof(IsHighlighted), typeof(bool), typeof(GridCell));
+
+
+        // ***** Constructor *****
 
 
         /// <summary>

@@ -49,23 +49,29 @@ namespace SnapNET.View
                 UpdateGrid();
             }
         }
-
-
-
+        
+        /// <summary>
+        /// Current selection (as indices)
+        /// </summary>
         public (int left, int top, int width, int height) Selection {
             get => (ValueTuple<int, int, int, int>)GetValue(SelectionProperty);
             set => SetValue(SelectionProperty, value);
         }
 
-        // ToDo: Implement setter
-        public static readonly DependencyProperty SelectionProperty =
-            DependencyProperty.Register(nameof(Selection), typeof(ValueTuple<int, int, int, int>), typeof(GridSelector)); 
-
-
+        /// <summary>
+        /// Command which will be executed when selection has been made
+        /// </summary>
         public ICommand SelectionCommand {
             get => (ICommand)GetValue(SelectionCommandProperty);
             set => SetValue(SelectionCommandProperty, value);
         }
+        
+
+        // *** DependencyProperties ***
+
+        // ToDo: Implement setter
+        public static readonly DependencyProperty SelectionProperty =
+            DependencyProperty.Register(nameof(Selection), typeof(ValueTuple<int, int, int, int>), typeof(GridSelector)); 
 
         public static readonly DependencyProperty SelectionCommandProperty =
             DependencyProperty.Register(nameof(SelectionCommand), typeof(ICommand), typeof(GridSelector));
