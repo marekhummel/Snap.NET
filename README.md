@@ -1,4 +1,4 @@
-﻿# SNAP.NET
+# SNAP.NET
 Tool to assist with window mgmt, especially for users with more than one monitor.
 Project abandoned, since MS PowerToys / Win11 cover my needs already.
 
