@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Web.Script.Serialization;
+// using System.Web.Script.Serialization;
 
 namespace SnapNET.Model.Settings
 {
@@ -43,7 +43,7 @@ namespace SnapNET.Model.Settings
 
             // Load json file
             string json = File.ReadAllText(fullpath);
-            Settings = (GlobalSettings)new JavaScriptSerializer().Deserialize(json, typeof(GlobalSettings));
+            //Settings = (GlobalSettings)new JavaScriptSerializer().Deserialize(json, typeof(GlobalSettings));
         }
 
 
@@ -52,12 +52,12 @@ namespace SnapNET.Model.Settings
         /// </summary>
         internal static void StoreSettings()
         {
-            string json = new JavaScriptSerializer().Serialize(Settings);
+            //string json = new JavaScriptSerializer().Serialize(Settings);
 
-            if (!Directory.Exists(_settingsDir))
-                _ = Directory.CreateDirectory(_settingsDir);
+            //if (!Directory.Exists(_settingsDir))
+            //    _ = Directory.CreateDirectory(_settingsDir);
 
-            File.WriteAllText(Path.Combine(_settingsDir, _settingsFile), json);
+            //File.WriteAllText(Path.Combine(_settingsDir, _settingsFile), json);
         }
 
 
