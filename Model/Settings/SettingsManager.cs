@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-// using System.Web.Script.Serialization;
+using System.Text.Json;
 
 namespace SnapNET.Model.Settings
 {
@@ -18,6 +18,17 @@ namespace SnapNET.Model.Settings
         private static readonly string _settingsDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SnapNET");
         private static readonly string _settingsFile = "settings.json";
 
+        static SettingsManager()
+        {
+            // Create new Settings
+            Settings = new GlobalSettings();
+
+            // Create gridsettings for each monitor
+            var mons = Monitor.Monitor.GetAllMonitors();
+            foreach (var mon in mons)
+                Settings.GridSettings.Add(mon.Name, new GridSettings());
+        }
+
 
 
         // ***** Public methods *****
@@ -29,21 +40,17 @@ namespace SnapNET.Model.Settings
         {
             string fullpath = Path.Combine(_settingsDir, _settingsFile);
 
-            // No settings exist yet
-            if (!File.Exists(fullpath)) {
-                Settings = new GlobalSettings();
+            // Settings file existing
+            if (File.Exists(fullpath)) {
+                using (var fs = File.OpenRead(fullpath)) {
+                    var loadedSettings = JsonSerializer.Deserialize<GlobalSettings>(fs);
 
-                // Create gridsettings for each monitor
-                var mons = Monitor.Monitor.GetAllMonitors();
-                foreach (var mon in mons)
-                    Settings.GridSettings.Add(mon.Name, new GridSettings());
-
-                return;
+                    if (loadedSettings != null) {
+                        Settings = loadedSettings;
+                        return;
+                    }
+                }       
             }
-
-            // Load json file
-            string json = File.ReadAllText(fullpath);
-            //Settings = (GlobalSettings)new JavaScriptSerializer().Deserialize(json, typeof(GlobalSettings));
         }
 
 
@@ -52,12 +59,12 @@ namespace SnapNET.Model.Settings
         /// </summary>
         internal static void StoreSettings()
         {
-            //string json = new JavaScriptSerializer().Serialize(Settings);
+            string json = JsonSerializer.Serialize(Settings);
 
-            //if (!Directory.Exists(_settingsDir))
-            //    _ = Directory.CreateDirectory(_settingsDir);
+            if (!Directory.Exists(_settingsDir))
+                _ = Directory.CreateDirectory(_settingsDir);
 
-            //File.WriteAllText(Path.Combine(_settingsDir, _settingsFile), json);
+            File.WriteAllText(Path.Combine(_settingsDir, _settingsFile), json);
         }
 
 

@@ -60,7 +60,7 @@ namespace SnapNET
 
                 // Bindings
                 var visBind = new Binding("Shared.IsVisible") { Source = vm, Converter = new BooleanToVisibilityConverter(), Mode = BindingMode.TwoWay };
-                _ = rw.SetBinding(Window.VisibilityProperty, visBind);
+                _ = rw.SetBinding(UIElement.VisibilityProperty, visBind);
 
                 // Show
                 _resWindows.Add(rw);
@@ -70,9 +70,9 @@ namespace SnapNET
             // Config listeners
             KeyboardListener.OnPressedKeysChanged += (sender, args) => {
                 // DEBUG
-                foreach (var rw in _resWindows) {
-                    rw.pressedKeysTextBox.Text = string.Join(" + ", KeyboardListener.PressedKeys);
-                }
+                //foreach (var rw in _resWindows) {
+                //    rw.pressedKeysTextBox.Text = string.Join(" + ", KeyboardListener.PressedKeys);
+                //}
 
                 // Update visibility
                 if (KeyboardListener.PressedKeys.SetEquals(new[] { Key.LeftCtrl, Key.Space })) {
