@@ -9,8 +9,8 @@ namespace SnapNET.Model.PInvoke
     internal class MonitorInfoEx
     {
         internal int cbSize = Marshal.SizeOf(typeof(MonitorInfoEx));
-        internal Rect rcMonitor = new Rect();
-        internal Rect rcWork = new Rect();
+        internal Rect rcMonitor = new();
+        internal Rect rcWork = new();
         internal int dwFlags = 0;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]

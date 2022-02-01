@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
+
 using SnapNET.Model.PInvoke;
 
 namespace SnapNET.Model.Keyboard
@@ -13,10 +14,10 @@ namespace SnapNET.Model.Keyboard
     internal static class KeyboardListener
     {
         // ***** Private members *****
-        
+
         private static bool _isRunning;
-        private static readonly List<IntPtr> _hooks = new List<IntPtr>();
-        private static readonly List<NativeMethods.LowLevelKeyboardProc> _hookCallbacks = new List<NativeMethods.LowLevelKeyboardProc>();
+        private static readonly List<IntPtr> _hooks = new();
+        private static readonly List<NativeMethods.LowLevelKeyboardProc> _hookCallbacks = new();
 
 
         // ***** Public members *****
@@ -35,7 +36,7 @@ namespace SnapNET.Model.Keyboard
         /// <summary>
         /// Event which is fired upon keypress and keyrelease
         /// </summary>
-        internal static event EventHandler<PressedKeysChangedEventArgs> OnPressedKeysChanged;
+        internal static event EventHandler<PressedKeysChangedEventArgs>? OnPressedKeysChanged;
 
 
         // ***** Public methods *****
@@ -45,8 +46,9 @@ namespace SnapNET.Model.Keyboard
         /// </summary>
         internal static void StartListener()
         {
-            if (_isRunning)
+            if (_isRunning) {
                 return;
+            }
 
             // Key down
             _hooks.Add(AddKeyboardCallback((keyInt) => {
@@ -70,12 +72,14 @@ namespace SnapNET.Model.Keyboard
         /// </summary>
         internal static void StopListener()
         {
-            if (!_isRunning)
+            if (!_isRunning) {
                 return;
+            }
 
             // Unhook everything
-            foreach (var hook in _hooks)
+            foreach (var hook in _hooks) {
                 _ = NativeMethods.UnhookWindowsHookEx(hook);
+            }
 
             _isRunning = false;
         }
@@ -94,9 +98,9 @@ namespace SnapNET.Model.Keyboard
             var newProc = CreateHookCallBack(kc, expectedWParam);
             _hookCallbacks.Add(newProc);
 
-            using (var curProcess = Process.GetCurrentProcess())
-            using (var curModule = curProcess.MainModule)
-                return NativeMethods.SetWindowsHookEx(Constants.WH_KEYBOARD_LL, newProc, NativeMethods.GetModuleHandle(curModule.ModuleName), 0);
+            using var curProcess = Process.GetCurrentProcess();
+            using var curModule = curProcess.MainModule;
+            return NativeMethods.SetWindowsHookEx(Constants.WH_KEYBOARD_LL, newProc, NativeMethods.GetModuleHandle(curModule?.ModuleName ?? ""), 0);
         }
 
         /// <summary>

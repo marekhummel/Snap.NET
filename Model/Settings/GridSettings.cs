@@ -19,7 +19,7 @@ namespace SnapNET.Model.Settings
         /// <summary>
         /// The amount of columns
         /// </summary>
-        public int Columns { get; set; } 
+        public int Columns { get; set; }
 
         /// <summary>
         /// Horizontal (x) distance between two grid cells
@@ -77,8 +77,9 @@ namespace SnapNET.Model.Settings
         /// <returns></returns>
         public Rect ApplyIndicesToMonitor(Monitor.Monitor mon, int idxLeft, int idxWidth, int idxTop, int idxHeight)
         {
-            if (idxLeft < 0 || idxLeft + idxWidth > Columns || idxTop < 0 || idxTop + idxHeight > Rows)
-                throw new ArgumentOutOfRangeException("Indices out of range");
+            if (idxLeft < 0 || idxLeft + idxWidth > Columns || idxTop < 0 || idxTop + idxHeight > Rows) {
+                throw new ArgumentOutOfRangeException("", "Indices out of range");
+            }
 
             // Absolute dimensions of monitor
             var wa = mon.WorkingArea;

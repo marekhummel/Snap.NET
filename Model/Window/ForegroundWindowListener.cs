@@ -1,4 +1,5 @@
 ﻿using System;
+
 using SnapNET.Model.PInvoke;
 
 namespace SnapNET.Model.Window
@@ -12,7 +13,7 @@ namespace SnapNET.Model.Window
 
         private static bool _isRunning = false;
         private static IntPtr _hook;
-        private static NativeMethods.WinEventDelegate _eventDelegate;
+        private static NativeMethods.WinEventDelegate? _eventDelegate;
 
 
         // ***** Public members *****
@@ -20,7 +21,7 @@ namespace SnapNET.Model.Window
         /// <summary>
         /// Triggers when the foreground window changed, according to the GetForegroundWindow function
         /// </summary>
-        internal static event EventHandler<ForegroundWindowChangedEventArgs> OnForegroundWindowChanged;
+        internal static event EventHandler<ForegroundWindowChangedEventArgs>? OnForegroundWindowChanged;
 
 
         // ***** Public methods *****
@@ -30,10 +31,11 @@ namespace SnapNET.Model.Window
         /// </summary>
         internal static void StartListener()
         {
-            if (_isRunning)
+            if (_isRunning) {
                 return;
+            }
 
-            _eventDelegate = new NativeMethods.WinEventDelegate((hWinEventHook, eventType, hwnd, idObject, idChild, dwEventThread, dwmsEventTime) 
+            _eventDelegate = new NativeMethods.WinEventDelegate((hWinEventHook, eventType, hwnd, idObject, idChild, dwEventThread, dwmsEventTime)
                 => OnForegroundWindowChanged?.Invoke(null, new ForegroundWindowChangedEventArgs(hwnd)));
 
             _hook = NativeMethods.SetWinEventHook(Constants.EVENT_SYSTEM_FOREGROUND, Constants.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _eventDelegate, 0, 0, Constants.WINEVENT_OUTOFCONTEXT);
@@ -46,8 +48,9 @@ namespace SnapNET.Model.Window
         /// </summary>
         internal static void StopListener()
         {
-            if (!_isRunning)
+            if (!_isRunning) {
                 return;
+            }
 
             _ = NativeMethods.UnhookWindowsHookEx(_hook);
             _isRunning = false;

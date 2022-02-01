@@ -44,7 +44,7 @@ namespace SnapNET.Model.PInvoke
         /// <returns></returns>
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         [ResourceExposure(ResourceScope.None)]
-        internal static extern bool GetMonitorInfo(IntPtr hmonitor, [In, Out]MonitorInfoEx info);
+        internal static extern bool GetMonitorInfo(IntPtr hmonitor, [In, Out] MonitorInfoEx info);
 
         /// <summary>
         /// Enumerator on all connected monitors

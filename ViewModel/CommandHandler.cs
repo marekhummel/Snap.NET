@@ -20,7 +20,7 @@ namespace SnapNET.ViewModel
         /// <summary>
         /// Wires CanExecuteChanged event 
         /// </summary>
-        public event EventHandler CanExecuteChanged {
+        public event EventHandler? CanExecuteChanged {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
@@ -47,14 +47,14 @@ namespace SnapNET.ViewModel
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
             => _canExecute.Invoke();
 
         /// <summary>
         /// Executes action
         /// </summary>
         /// <param name="parameter"></param>
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
             => _action();
     }
 }

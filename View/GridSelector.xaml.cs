@@ -4,8 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
 
 using SnapNET.Model;
 
@@ -49,7 +47,7 @@ namespace SnapNET.View
                 UpdateGrid();
             }
         }
-        
+
         /// <summary>
         /// Current selection (as indices)
         /// </summary>
@@ -65,13 +63,13 @@ namespace SnapNET.View
             get => (ICommand)GetValue(SelectionCommandProperty);
             set => SetValue(SelectionCommandProperty, value);
         }
-        
+
 
         // *** DependencyProperties ***
 
         // ToDo: Implement setter
         public static readonly DependencyProperty SelectionProperty =
-            DependencyProperty.Register(nameof(Selection), typeof(ValueTuple<int, int, int, int>), typeof(GridSelector)); 
+            DependencyProperty.Register(nameof(Selection), typeof(ValueTuple<int, int, int, int>), typeof(GridSelector));
 
         public static readonly DependencyProperty SelectionCommandProperty =
             DependencyProperty.Register(nameof(SelectionCommand), typeof(ICommand), typeof(GridSelector));
@@ -100,10 +98,13 @@ namespace SnapNET.View
             _cells = new List<GridCell>();
 
             // Add row / col definitions
-            for (int i = 0; i < Rows; i++)
+            for (int i = 0; i < Rows; i++) {
                 mainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            for (int j = 0; j < Columns; j++)
+            }
+
+            for (int j = 0; j < Columns; j++) {
                 mainGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            }
 
             // Add hoverable rects
             for (int r = 0; r < Rows; r++) {
@@ -119,7 +120,7 @@ namespace SnapNET.View
                 }
             }
         }
-        
+
         /// <summary>
         /// Called when the mouse is pressed down on the control to implement selection
         /// </summary>
@@ -151,8 +152,9 @@ namespace SnapNET.View
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             base.OnMouseUp(e);
-            if (e.ChangedButton != MouseButton.Left)
+            if (e.ChangedButton != MouseButton.Left) {
                 return;
+            }
 
             // Raise event so the window can adjust
             var selectedCells = _cells.Where(cell => cell.IsHighlighted);
@@ -177,15 +179,16 @@ namespace SnapNET.View
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            if (!_mouseDown)
+            if (!_mouseDown) {
                 return;
+            }
 
             // ** Clamp mousepos in selector area
             var mousePos = e.GetPosition(mainGrid);
 
             // ** Although the selection rectangle needs to be relative to the main grid, clamping needs to be done on the whole control
             var realMousePos = e.GetPosition(this);
-            var (clampedX, clampedY) = (Util.Clamp(0, ActualWidth, realMousePos.X), 
+            var (clampedX, clampedY) = (Util.Clamp(0, ActualWidth, realMousePos.X),
                                         Util.Clamp(0, ActualHeight, realMousePos.Y));
             mousePos = new Point(mousePos.X + (clampedX - realMousePos.X), mousePos.Y + (clampedY - realMousePos.Y));
 
@@ -215,8 +218,9 @@ namespace SnapNET.View
             mainGrid.ReleaseMouseCapture();
             Selection = (0, 0, 0, 0);
             // Reset highlighting
-            foreach (var cell in _cells)
+            foreach (var cell in _cells) {
                 cell.IsHighlighted = false;
+            }
         }
     }
 }

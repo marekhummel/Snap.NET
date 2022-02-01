@@ -25,8 +25,9 @@ namespace SnapNET.Model.Settings
 
             // Create gridsettings for each monitor
             var mons = Monitor.Monitor.GetAllMonitors();
-            foreach (var mon in mons)
+            foreach (var mon in mons) {
                 Settings.GridSettings.Add(mon.Name, new GridSettings());
+            }
         }
 
 
@@ -42,14 +43,13 @@ namespace SnapNET.Model.Settings
 
             // Settings file existing
             if (File.Exists(fullpath)) {
-                using (var fs = File.OpenRead(fullpath)) {
-                    var loadedSettings = JsonSerializer.Deserialize<GlobalSettings>(fs);
+                using var fs = File.OpenRead(fullpath);
+                var loadedSettings = JsonSerializer.Deserialize<GlobalSettings>(fs);
 
-                    if (loadedSettings != null) {
-                        Settings = loadedSettings;
-                        return;
-                    }
-                }       
+                if (loadedSettings != null) {
+                    Settings = loadedSettings;
+                    return;
+                }
             }
         }
 
@@ -61,14 +61,15 @@ namespace SnapNET.Model.Settings
         {
             string json = JsonSerializer.Serialize(Settings);
 
-            if (!Directory.Exists(_settingsDir))
+            if (!Directory.Exists(_settingsDir)) {
                 _ = Directory.CreateDirectory(_settingsDir);
+            }
 
             File.WriteAllText(Path.Combine(_settingsDir, _settingsFile), json);
         }
 
 
-        internal static GridSettings GetGridSettings(string mon) 
+        internal static GridSettings GetGridSettings(string mon)
             => Settings.GridSettings.ContainsKey(mon) ? Settings.GridSettings[mon] : new GridSettings();
     }
 }

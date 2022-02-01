@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
+
 using SnapNET.Model.PInvoke;
 
 namespace SnapNET.Model.Window
@@ -64,8 +65,9 @@ namespace SnapNET.Model.Window
             Console.WriteLine(NativeMethods.SetWindowPos(hWnd, IntPtr.Zero, oleft, otop, owidth, oheight, flags));
 
             // Focus
-            if (focusAfterResizing)
+            if (focusAfterResizing) {
                 _ = NativeMethods.SetForegroundWindow(hWnd);
+            }
 
             // ToDo: Set to maximized if rect covers full screen ?
         }
@@ -78,7 +80,7 @@ namespace SnapNET.Model.Window
         internal static bool IsHandleFromThisApplication(IntPtr hWnd)
         {
             _ = NativeMethods.GetWindowThreadProcessId(hWnd, out uint pid);
-            return pid == System.Diagnostics.Process.GetCurrentProcess().Id;
+            return pid == Environment.ProcessId;
         }
 
 

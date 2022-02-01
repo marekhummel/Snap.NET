@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+
 using SnapNET.Model.Monitor;
 
 namespace SnapNET.ViewModel
@@ -14,17 +15,17 @@ namespace SnapNET.ViewModel
         // ***** Private members *****
 
         private bool _isVisible;
-        private string _foregroundWindowTitle;
-        private ICommand _exitCommand, _minimizeCommand;
+        private string _foregroundWindowTitle = "";
+        private ICommand? _exitCommand, _minimizeCommand;
 
 
 
         // ***** PUBLIC  FIELDS *****
 
         /// <summary>
-        /// ???
+        /// Monitor of this view
         /// </summary>
-        public Monitor Monitor { get; set; }
+        public Monitor? Monitor { get; set; }
 
         /// <summary>
         /// Flag for visibility
@@ -45,8 +46,7 @@ namespace SnapNET.ViewModel
         /// <summary>
         /// Title of foreground window
         /// </summary>
-        public string ForegroundWindowTitle
-        {
+        public string ForegroundWindowTitle {
             get => _foregroundWindowTitle;
             set {
                 _foregroundWindowTitle = value;
@@ -58,13 +58,13 @@ namespace SnapNET.ViewModel
         /// Command to minimize windows
         /// </summary>
         public ICommand ExitCommand
-            => _exitCommand ?? (_exitCommand = new CommandHandler(() => Application.Current.Shutdown(), () => true));
+            => _exitCommand ??= new CommandHandler(() => Application.Current.Shutdown(), () => true);
 
         /// <summary>
         /// Command to minimize windows
         /// </summary>
         public ICommand MinimizeCommand
-            => _minimizeCommand ?? (_minimizeCommand = new CommandHandler(() => IsVisible = false, () => true));
+            => _minimizeCommand ??= new CommandHandler(() => IsVisible = false, () => true);
 
 
         /// <summary>

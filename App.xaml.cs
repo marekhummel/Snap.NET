@@ -19,9 +19,9 @@ namespace SnapNET
     /// </summary>
     public partial class App : Application
     {
-        private List<ResizingWindow> _resWindows;
-        private List<ResizingWindowViewModel> _childVms;
-        private ResizingWindowSharedViewModel _parentVm;
+        private readonly List<ResizingWindow> _resWindows = new();
+        private readonly List<ResizingWindowViewModel> _childVms = new();
+        private readonly ResizingWindowSharedViewModel _parentVm = new();
 
 
         protected override void OnStartup(StartupEventArgs e)
@@ -40,11 +40,10 @@ namespace SnapNET
             // ToDo
 
 
-
             // ** Create windows
-            _resWindows = new List<ResizingWindow>();
-            _childVms = new List<ResizingWindowViewModel>();
-            _parentVm = new ResizingWindowSharedViewModel();
+            //_resWindows = new List<ResizingWindow>();
+            //_childVms = new List<ResizingWindowViewModel>();
+            //_parentVm = new ResizingWindowSharedViewModel();
 
             // Create view instance for each monitor
             foreach (var mon in Monitor.GetAllMonitors()) {
@@ -83,8 +82,10 @@ namespace SnapNET
                 }
             };
             ForegroundWindowListener.OnForegroundWindowChanged += (sender, args) => {
-                if (WindowHelper.IsHandleFromThisApplication(args.ForegroundWindowHandle)) 
+                if (WindowHelper.IsHandleFromThisApplication(args.ForegroundWindowHandle)) {
                     return;
+                }
+
                 _parentVm.ForegroundWindowHandle = args.ForegroundWindowHandle;
                 _parentVm.ForegroundWindowTitle = args.ForegroundWindowTitle;
             };

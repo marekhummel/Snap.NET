@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+
 using SnapNET.Model.Monitor;
 using SnapNET.Model.Settings;
 using SnapNET.Model.Window;
@@ -13,7 +14,7 @@ namespace SnapNET.ViewModel
 
         // ***** Private members *****
 
-        private ICommand _resizeCommand;
+        private ICommand? _resizeCommand;
         private readonly Monitor _monitor;
         private readonly GridSettings _gridSettings;
         private (int, int, int, int) _gridSelection;
@@ -41,11 +42,11 @@ namespace SnapNET.ViewModel
         /// Test command to resize
         /// </summary>
         public ICommand ResizeCommand
-            => _resizeCommand ?? (_resizeCommand = new CommandHandler(() => {
+            => _resizeCommand ??= new CommandHandler(() => {
                 var (l, t, w, h) = GridSelection;
                 var rect = _gridSettings.ApplyIndicesToMonitor(_monitor, l, w, t, h);
                 WindowHelper.SetWindowSize(Shared.ForegroundWindowHandle, rect.Left, rect.Top, rect.Width, rect.Height, true);
-            }, () => true));
+            }, () => true);
 
 
         // ***** Constructor *****
