@@ -18,14 +18,14 @@ Snap.NET is a Windows WPF utility for positioning the focused window, particular
 
 Settings are stored in `%AppData%\SnapNET`.
 
-## Build
+## Publish
 
-Build on Windows with the .NET 10 SDK:
+Publish on Windows with the .NET 10 SDK:
 
 ```powershell
-dotnet build Snap.NET.sln --configuration Release
+dotnet publish Snap.NET.sln --configuration Release
 ```
 
-The self-contained Windows output is written to `bin\Release\net10.0-windows\win-x64\`. Run `Snap.NET.exe`; no .NET installation is required on the target computer.
+The self-contained single executable is written to `bin\Release\net10.0-windows\win-x64\publish\Snap.NET.exe`. No .NET installation is required on the target computer.
 
 The release build was last verified successfully. Because this is a Windows-only WPF application, capture a UI screenshot from a Windows desktop after launching the generated executable.
