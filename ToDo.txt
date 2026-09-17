@@ -1,3 +1,0 @@
-﻿ToolTip
-Settings
-Application name + icon ?
